@@ -13,7 +13,8 @@
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftdotsep}{.5}% use the same dot distance for all levels
 \setmainlanguage{swedish}
-
+\usepackage{wrapfig}
+\usepackage{caption} % strongly recommended
 % --- Fonts (Strict Word Parity) ---
 % These fonts must be installed on your system.
 \setmainfont[
@@ -95,31 +96,34 @@
     \thispagestyle{empty} % No header/footer on title page
     \vspace*{2cm}
     
-    {\Huge \bfseries \sffamily Titel på rapporten} \\ 
+    {\Huge \bfseries \sffamily VAE kompression med AVIF } \\ 
     \vspace{0.5cm}
-    {\large En undertitel om så önskas} % [cite: 12, 150]
+    %{\large En undertitel om så önskas} % [cite: 12, 150]
     
-    \vspace{2cm}
+    %\vspace{2cm}
+
     
-    % [cite: 13, 151] "En väl val bild kan också placeras på titelbladet"
-    \textit{[Plats för en väl vald bild]}
+    {\Large \textbf{DVA305}} \\ \vspace{0.2cm} % [cite: 9, 147]
+    \Large \textbf{Information – kunskap – vetenskap – etik} \\ 
+    \Large \textbf{[VT] 2026 Grupp 4} 
     
-    \vspace{3cm}
+        % [cite: 13, 151] "En väl val bild kan också placeras på titelbladet"
+    \vspace{0.5cm} % tweak this
+    \noindent\centering
+    \includegraphics[width=0.75\linewidth]{images/kodim23.png}
+    \par
+    \vspace{0.5cm} % tweak this
+
     
     {\Large \textbf{Författare:}} \\ \vspace{0.2cm} % [cite: 8, 146]
     Ayman, Martin, Patrik och Salah  \\ 
     %\texttt{epost@student.mdu.se} % [cite: 10, 148]
     
     \vspace{2cm}
-    
-    {\Large \textbf{Kurs:}} \\ \vspace{0.2cm} % [cite: 9, 147]
-    DVA305 - Information – kunskap – vetenskap – etik \\ 
-    [VT/HT] 202X 
-    
     \vfill
     
     {\large Ort och datum:}\\ % [cite: 11, 149]
-    Västerås/Eskilstuna, \today
+    \large Västerås, \today
     
     \vspace{1cm}
 \end{titlepage}
@@ -176,13 +180,35 @@ Behovet att optimera lagring och läsning av bilder har sedan länge varit en st
 
 Traditionellt sett har bilder mestadels redigerats i bildbehandlingsprogram såsom Photoshop eller Gimp. Bilden har behandlats utifrån sin rumsliga struktur med pixeln som viktigaste beståndsdel. Bildredigering har i dessa program framförallt handlat om att skala, rotera eller ändra färgen på enskilda pixlar eller grupper av pixlar. Huvudsyftet har varit att möjliggöra ett intuitivt sätt att arbeta med bilder för oss människor [?]. I detta sammanhang har populära filformat såsom JPG, PNG och AVIF sakta utformats för att tjäna detta syfte på bästa sätt [?]. 
 
-Med framväxten av maskininlärning (ML) och djupinlärning (DL) har nya sätt att bearbeta bilder introducerats [?]. Istället för att manipulera pixlar direkt i det visuella planet finns nu möjligheter att arbeta med bildens semantiska innehåll i en s.k. latent representation [?]. En ML-modell kan med denna latenta representation som grund generera en, eller flera visuellt lika (eller olika) bilder på skärmen [?]. Eftersom ML-modeller inte behöver tolka bilder utifrån samma strukturella ordning som människor, kan bildinformationen omstruktureras på nya sätt som bättre passar modellens syfte [?]. Målet med dessa ML-baserade metoder är inte i första hand att minimera filstorleken, utan genom att komprimera bort överflödig information underlättar man beräkningsarbetet och ökar på så sätt även prestandan i modellerna [?]. Ser man enbart till filstorlek kontra bildkvalitet är dagens etablerade kompressionsalgoritmer redan mycket effektiva. Till exempel kan dessa med lätthet krympa bildens filstorlek upp till 60 gånger jämfört med originalet [?]. Detta med en kvalitet som för blotta ögat är nästintill omöjlig att särskilja från originalbilden. Dessutom kan sådana komprimerade bildfiler öppnas på bara några millisekunder. Detta till trots finns ingen egentlig fördel med att använda dessa bildformat i ML-modeller. I komprimerat tillstånd är bildinformationen kodad på ett sätt som gör det omöjligt att bearbeta bilden vidare utan att först återföra den till sin fulla storlek, varpå alla fördelarna har gått förlorade. [?]. 
+
+
+Med framväxten av maskininlärning (ML) och djupinlärning (DL) har nya sätt att bearbeta bilder introducerats [?]. Istället för att manipulera pixlar direkt i det visuella planet finns nu möjligheter att arbeta med bildens semantiska innehåll i en s.k. latent representation [?]. En ML-modell kan med denna latenta representation som grund generera en, eller flera visuellt lika (eller olika) bilder på skärmen [?]. \begin{wrapfigure}{r}{0.42\textwidth}
+    \vspace{-10pt} % optional tuning
+    \centering
+    \includegraphics[width=0.40\textwidth]{images/kodim23.png}
+    \caption{Kodak test image (kodim23).}
+    \label{fig:kodim23}
+\end{wrapfigure}Eftersom ML-modeller inte behöver tolka bilder utifrån samma strukturella ordning som människor, kan bildinformationen omstruktureras på nya sätt som bättre passar modellens syfte [?]. Målet med dessa ML-baserade metoder är inte i första hand att minimera filstorleken, utan genom att komprimera bort överflödig information underlättar man beräkningsarbetet och ökar på så sätt även prestandan i modellerna [?].
+Ser man enbart till filstorlek kontra bildkvalitet är dagens etablerade kompressionsalgoritmer redan mycket effektiva. Till exempel kan dessa med lätthet krympa bildens filstorlek upp till 60 gånger jämfört med originalet [?]. Detta med en kvalitet som för blotta ögat är nästintill omöjlig att särskilja från originalbilden. Dessutom kan sådana komprimerade bildfiler öppnas på bara några millisekunder. Detta till trots finns ingen egentlig fördel med att använda dessa bildformat i ML-modeller. I komprimerat tillstånd är bildinformationen kodad på ett sätt som gör det omöjligt att bearbeta bilden vidare utan att först återföra den till sin fulla storlek, varpå alla fördelarna har gått förlorade. [?]. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Diagram.png}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
+\end{figure}
+
 
 Tack vare att ML-modeller som tidigare nämnts inte behöver ha bilder i ett direkt visuellt format under bearbetningen forskas det på att skapa mer kompakta representationer av bilddata som samtidigt behåller semantisk information. Mycket av den information som krävs enbart för att återge bilden kan utelämnas tills modellen är klar och den slutliga bilden ska visualiseras [?]. Resultatet blir ett kompakt dataformat som ändå behåller det viktigaste för att beskriva vad bilden föreställer. Med ett sådant format kan bilder både ta mindre plats på hårddisken och matas direkt in i ML-modeller utan tunga mellanliggande steg för bearbetning och rekonstruktion [?]. Detta kan i så fall visa sig särskilt värdefullt när man arbetar med väldigt stora bilder eller stora mängder bilddata, såsom till exempel högupplösta fotografier eller video där traditionell hantering skulle vara ineffektiv [?]. 
 % ==========================================
 % 2. BAKGRUND [cite: 56, 185]
 % ==========================================
+
+
+
 \section*{Bakgrund}
+\addcontentsline{toc}{section}{Bakgrund} 
 %I avsnittet bakgrund redogör ni först för sådan kunskap som läsaren behöver för att förstå ert arbete och ert bidrag. Presentera grundläggande kunskap som behövs för att förstå området och frågeställningen.
 
 %Syftet med bakgrunden är också att placera in ert arbete i ett vetenskapligt sammanhang och jämföra det med tidigare publicerade vetenskapliga arbeten och resultat inom området på ett övergripande plan. En mer detaljerad jämförelse med det närmast relaterade arbetet passar bättre under relaterat arbete nedan.
@@ -193,7 +219,9 @@ Tack vare att ML-modeller som tidigare nämnts inte behöver ha bilder i ett dir
 %\section{Hypotes}
 %Vi förväntar oss att SDXL latenta representation ska gå att komprimera ytterliggare med vanliga metoder såsom AVIF eftersom dess kanaler inte bara tycks bestå av okorrellerat “brus”. Detta verifieras genom att latenten omformas till ett bildlikt format (RGBA) och öppnas i ett verktyg som GIMP där det då går att urskilja tydliga bildstrukturer. Det tyder på att latenten innehåller spatialt sammanhängande information (kanter, större former, färgövergångar) och därmed uppvisar redundans som nämnda kompressionsalgoritmer är konstruerade att utnyttja. 
 
+
 \section*{Frågeställning}
+\addcontentsline{toc}{section}{Frågeställning} 
 %I det här avsnittet formulerar och preciserar ni er frågeställning. Frågeställningen är den vetenskapliga rapportens viktigaste och mest centrala del.
 
 %Beskriv frågeställningen på ett tydligt sätt, både på hög nivå och i detalj. Redogör för antaganden och begränsningar, samtidigt är en välformulerad frågeställning i sig avgränsande.
@@ -202,6 +230,7 @@ Uppvisar SDXL:s latenta representation tillräckligt med 'bildlika' egenskaper f
 % 4. METOD [cite: 66, 195]
 % ==========================================
 \section*{Metod}
+\addcontentsline{toc}{section}{Metod} 
 %I det här avsnittet ska ni beskriva vilken vetenskaplig metod ni har använt och hur ni har gått tillväga med arbetet att besvara frågeställningen. Ni kan t.ex. ha gjort en matematisk modell, använt simuleringar, gjort en implementation som ni testat eller gjort experiment som ni kanske utvärderat med hjälp av statistiska metoder.
 
 %Metod-avsnittet svarar också på varför ni gjorde på ett visst sätt eller varför ni använde ett visst verktyg. Ni ska alltså inte bara beskriva "vad" utan också "varför". Ställ dig frågan: kan den valda metoden hjälpa mig att besvara frågeställningen?
@@ -221,12 +250,14 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 5. FORSKNINGSETISKT STÄLLNINGSTAGANDE [cite: 72, 201]
 % ==========================================
 \section*{Forskningsetiskt ställningstagande}
+\addcontentsline{toc}{section}{Forskningsetiskt ställningstagande} 
 %Innebär ert val av frågeställning eller metod något forskningsetiskt ställningstagande? Finns det andra etiska aspekter att beakta i arbetet? Denna rubrik är inte alltid relevant, men ni bör tydligt ange när ni anser att ert arbete inte ger upphov till etiska frågor.
 
 % ==========================================
 % 6. UTFÖRANDE [cite: 75, 204]
 % ==========================================
 \section*{Utförande}
+\addcontentsline{toc}{section}{Utförande} 
 \textit{(Obs: Ni ska inte använda rubriken ovan, utan ersätta den med lämplig rubrik beroende på ert arbete.)}
 
 %Efter avsnitten ovan följer nu en beskrivning av vad ni gjort. Strukturen ska göras tydlig genom avsnittsrubrikerna. Det är viktigt med en klar och tydlig logisk struktur och ett berättande flöde.
@@ -237,6 +268,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 7. RESULTAT [cite: 82, 211]
 % ==========================================
 \section*{Resultat}
+\addcontentsline{toc}{section}{Resultat} 
 %Här kan ni till exempel presentera kvantitativa resultat av experiment, bevis, analys av data etc. Era resultat måste beskrivas så tydligt att en läsare kan bedöma dem. Ni ska också förklara och analysera resultaten. 
 
 %Om ert arbete bottnar i kvalitativa metoder är det möjligt att avsnittet resultat inte passar, i.s.f. skriver ni inte ett explicit avsnitt för resultat.
@@ -245,6 +277,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 8. DISKUSSION [cite: 86, 215]
 % ==========================================
 \section*{Diskussion}
+\addcontentsline{toc}{section}{Diskussion} 
 %Här presenterar ni er tolkning av resultaten och bedömer deras signifikans. Diskutera möjliga konsekvenser av resultaten, och presentera eventuella rekommendationer. Det är viktigt att diskussionen använder resultaten för att besvara er frågeställning.
 
 %Avsnittet ska också innehålla reflektioner kring arbetet, som till exempel dess begränsningar. Ni kan också diskutera lösningar på problem som ni identifierat och diskuterat tidigare, eller ta upp andra problem som arbetet inte behandlat, frågor som ej besvarats.
@@ -255,6 +288,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 9. RELATERAT ARBETE [cite: 94, 223]
 % ==========================================
 \section*{Relaterat arbete}
+\addcontentsline{toc}{section}{Relaterat arbete} 
 %Det är här ni beskriver existerande kunskap och vetenskap som är relaterat till ert arbete på ett djupare sätt. Avsnittet ska innehålla analyser av tidigare arbeten som exempelvis beskriver hur olika metoder skiljer sig åt.
 
 %Ni kan också visa på de viktigaste likheterna och skillnaderna i förhållande till ert eget arbete beträffande frågeställning, angreppssätt/metodologi samt resultat.
@@ -263,6 +297,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 10. SLUTSATSER [cite: 98, 228]
 % ==========================================
 \section*{Slutsatser}
+\addcontentsline{toc}{section}{Slutsatser} 
 %I detta avsnitt ska ni summera rapporten och presentera slutsatser. Ge en kort översikt av frågeställningen. Ni ska sedan tydligt tala om de viktigaste resultaten, förklara deras signifikans och sätta in dem i sitt sammanhang.
 
 %Alla slutsatser ska ha stöd i tidigare delar av rapporten. Ni ska däremot inte presentera nya detaljer. En expert ska kunna läsa detta avsnitt oberoende av resten av rapporten.
@@ -271,6 +306,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 % 11. FRAMTIDA ARBETE [cite: 103, 233]
 % ==========================================
 \section*{Framtida arbete}
+\addcontentsline{toc}{section}{Framtida arbete} 
 %Här ska ni diskutera vad som återstår att göra. Ni kan ta upp förbättringar som kan göras, och utvidgningar av ert arbete som kan resultera i nya frågeställningar för framtiden.
 
 % ==========================================
@@ -279,6 +315,7 @@ Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och
 \newpage
 % Ensure you have a 'references.bib' file in the same directory.
 \printbibliography[heading=bibintoc, title={Referenser}]
+\addcontentsline{toc}{section}{Referenser} 
 
 % ==========================================
 % BILAGOR [cite: 125, 256]
