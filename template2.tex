@@ -1,0 +1,242 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- Language and Encoding ---
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{swedish}
+
+% --- Fonts (Approximating Word Defaults) ---
+% Requires system fonts "Times New Roman" and "Arial" to be installed.
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+
+% --- Page Layout (Standard Word Margins) ---
+\usepackage[margin=2.54cm]{geometry}
+
+% --- Formatting ---
+\usepackage{parskip} % Adds space between paragraphs, removes indentation (Word style)
+\linespread{1.15}    % Approximate line spacing for Word defaults
+
+% --- Graphics and Figures ---
+\usepackage{graphicx}
+\usepackage{float}
+
+% --- References (IEEE Style) ---
+\usepackage[backend=biber, style=ieee]{biblatex}
+\addbibresource{references.bib} % You must create this file
+
+% --- Clickable Links ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,      
+    urlcolor=blue,
+    citecolor=black,
+}
+
+% --- Header/Footer Customization ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small DVA305} % Course Code [cite: 2]
+\fancyhead[R]{\small Rapport}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+
+% --- Section Heading Formatting ---
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\sffamily}{\thesubsection}{1em}{}
+
+% --- Metadata ---
+\title{Rapportmall}
+\author{Författarens Namn}
+\date{\today}
+
+\begin{document}
+
+% ==========================================
+% TITELBLAD 
+% ==========================================
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge \bfseries \sffamily Titel på rapporten} \\ % [cite: 7]
+    \vspace{0.5cm}
+    {\large En undertitel om så önskas}
+    
+    \vspace{2cm}
+    
+    % Optional Image placeholder [cite: 13]
+    \textit{[Plats för en väl vald bild]}
+    
+    \vspace{3cm}
+    
+    {\Large \textbf{Författare:}} \\ \vspace{0.2cm}
+    Förnamn Efternamn \\ % [cite: 8]
+    \texttt{epost@student.mdu.se} % [cite: 10]
+    
+    \vspace{2cm}
+    
+    {\Large \textbf{Kurs:}} \\ \vspace{0.2cm}
+    DVA305 - Information – kunskap – vetenskap – etik \\ % [cite: 9]
+    [VT/HT] 202X % [cite: 4]
+    
+    \vfill
+    
+    {\large Ort och datum:}\\ % [cite: 11]
+    Västerås/Eskilstuna, \today
+    
+    \vspace{1cm}
+\end{titlepage}
+
+% ==========================================
+% SAMMANFATTNING 
+% ==========================================
+\thispagestyle{plain}
+\section*{Sammanfattning}
+Det här avsnittet ska helt enkelt vara en sammanfattning av hela rapporten. En lämplig omfattning är c:a 200 – 250 ord. En bra tumregel är att sammanfattningen ska hållas så kort det går, den ska vara kompakt men tydlig, informativ och väcka intresse.
+
+Summera allt det som är väsentligt i rapporten och presentera de viktigaste resultaten och slutsatserna. Följande bör ingå:
+\begin{itemize}
+    \item Presentation och introduktion av området för arbetet.
+    \item Översiktlig presentation av frågeställningen.
+    \item Generell beskrivning av arbetet, hur ni angripit frågeställningen och vad ni har gjort.
+    \item Sammanfattning av resultat och slutsatser.
+\end{itemize}
+
+Det ska inte finnas någon beskrivning av hur rapporten är uppställd och inte några detaljer i sammanfattningen. Sammanfattningen ska kunna läsas helt fristående från resten av rapporten och vända sig till en ganska bred målgrupp läsare. Den ska ge en bra grund för att en läsare ska kunna bedöma om hen är intresserad av att läsa hela rapporten. 
+
+När hela rapporten är klar bör ni granska och vid behov revidera sammanfattningen så att den överensstämmer med rapporten.
+
+\newpage
+
+% ==========================================
+% INNEHÅLLSFÖRTECKNING 
+% ==========================================
+\tableofcontents
+\newpage
+
+% List of figures should be here according to instructions [cite: 30]
+\listoffigures
+\newpage
+
+% ==========================================
+% 1. INLEDNING [cite: 46]
+% ==========================================
+\section{Inledning}
+I inledningen ska ni introducera ämnet för ert arbete och motivera varför det är viktigt. Inledningen ska vara allmän och syftar till att ge läsaren en introduktion till ämnet och leder läsaren in i texten.
+
+Följande bör ingå:
+\begin{itemize}
+    \item Presentation av området och ämnet för arbetet. Det här bör komma tidigt och ska fånga intresset.
+    \item Presentationen kan också innehålla eventuellt viktiga definitioner av begrepp.
+    \item Presentation av ert arbete inklusive syfte och frågeställning. Observera att frågeställningen beskrivs i detalj senare i rapporten. Men läsaren behöver få en förståelse för frågeställningen inför avsnittet bakgrund.
+    \item Motivation till varför uppgiften är intressant och varför frågeställningen är relevant.
+\end{itemize}
+
+Ingen specialiserad terminologi eller matematik bör ingå i inledningen. Efter inledningen ska läsaren och ni ha en bas av gemensam förståelse.
+
+% ==========================================
+% 2. BAKGRUND [cite: 56]
+% ==========================================
+\section{Bakgrund}
+I avsnittet bakgrund redogör ni först för sådan kunskap som läsaren behöver för att förstå ert arbete och ert bidrag. Presentera grundläggande kunskap som behövs för att förstå området och frågeställningen.
+
+Syftet med bakgrunden är också att placera in ert arbete i ett vetenskapligt sammanhang och jämföra det med tidigare publicerade vetenskapliga arbeten och resultat inom området på ett övergripande plan. En mer detaljerad jämförelse med det närmast relaterade arbetet passar bättre under relaterat arbete nedan.
+
+% ==========================================
+% 3. FRÅGESTÄLLNING [cite: 61]
+% ==========================================
+\section{Frågeställning}
+I det här avsnittet formulerar och preciserar ni er frågeställning. Frågeställningen är den vetenskapliga rapportens viktigaste och mest centrala del.
+
+Beskriv frågeställningen på ett tydligt sätt, både på hög nivå och i detalj. Redogör för antaganden och begränsningar, samtidigt är en välformulerad frågeställning i sig avgränsande.
+
+% ==========================================
+% 4. METOD [cite: 66]
+% ==========================================
+\section{Metod}
+I det här avsnittet ska ni beskriva vilken vetenskaplig metod ni har använt och hur ni har gått tillväga med arbetet att besvara frågeställningen. Ni kan t.ex. ha gjort en matematisk modell, använt simuleringar, gjort en implementation som ni testat eller gjort experiment som ni kanske utvärderat med hjälp av statistiska metoder.
+
+Metod-avsnittet svarar också på varför ni gjorde på ett visst sätt eller varför ni använde ett visst verktyg. Ni ska alltså inte bara beskriva "vad" utan också "varför". Ställ dig frågan: kan den valda metoden hjälpa mig att besvara frågeställningen?
+
+% ==========================================
+% 5. FORSKNINGSETISKT STÄLLNINGSTAGANDE [cite: 72]
+% ==========================================
+\section{Forskningsetiskt ställningstagande}
+Innebär ert val av frågeställning eller metod något forskningsetiskt ställningstagande? Finns det andra etiska aspekter att beakta i arbetet? Denna rubrik är inte alltid relevant, men ni bör tydligt ange när ni anser att ert arbete inte ger upphov till etiska frågor.
+
+% ==========================================
+% 6. UTFÖRANDE [cite: 75]
+% ==========================================
+\section{Utförande}
+\textit{(Obs: Ni ska inte använda rubriken ovan, utan ersätta den med lämplig rubrik beroende på ert arbete[cite: 77].)}
+
+Efter avsnitten ovan följer nu en beskrivning av vad ni gjort. Strukturen ska göras tydlig genom avsnittsrubrikerna. Det är viktigt med en klar och tydlig logisk struktur och ett berättande flöde.
+
+Ni ska ha med avancerad bakgrundskunskap som är nödvändig för att förstå hur ni löst uppgiften, och definiera hypoteser och viktiga begrepp. Beskrivning av experiment ska vara sådan att det ska gå att upprepa experimenten. Om en sådan beskrivning blir väldigt lång och detaljerad kan ni lägga den i en bilaga.
+
+% ==========================================
+% 7. RESULTAT [cite: 82]
+% ==========================================
+\section{Resultat}
+Här kan ni till exempel presentera kvantitativa resultat av experiment, bevis, analys av data etc. Era resultat måste beskrivas så tydligt att en läsare kan bedöma dem. Ni ska också förklara och analysera resultaten. 
+
+Om ert arbete bottnar i kvalitativa metoder är det möjligt att avsnittet resultat inte passar, i.s.f. skriver ni inte ett explicit avsnitt för resultat.
+
+% ==========================================
+% 8. DISKUSSION [cite: 86]
+% ==========================================
+\section{Diskussion}
+Här presenterar ni er tolkning av resultaten och bedömer deras signifikans. Diskutera möjliga konsekvenser av resultaten, och presentera eventuella rekommendationer. Det är viktigt att diskussionen använder resultaten för att besvara er frågeställning.
+
+Avsnittet ska också innehålla reflektioner kring arbetet, som till exempel dess begränsningar. Ni kan också diskutera lösningar på problem som ni identifierat och diskuterat tidigare, eller ta upp andra problem som arbetet inte behandlat, frågor som ej besvarats.
+
+Koppla eventuellt också dina resultat till tidigare arbeten. På så sätt kan diskussionen bli ett samtal med det ni skrev i tidigare avsnitt. Slutligen ska ni sätta ditt eget arbete i ett större sammanhang, bredda ditt perspektiv. Kan dina resultatet generaliseras? Kan det du gjort användas i något annat sammanhang?
+
+% ==========================================
+% 9. RELATERAT ARBETE [cite: 94]
+% ==========================================
+\section{Relaterat arbete}
+Det är här ni beskriver existerande kunskap och vetenskap som är relaterat till ert arbete på ett djupare sätt. Avsnittet ska innehålla analyser av tidigare arbeten som exempelvis beskriver hur olika metoder skiljer sig åt.
+
+Ni kan också visa på de viktigaste likheterna och skillnaderna i förhållande till ert eget arbete beträffande frågeställning, angreppssätt/metodologi samt resultat.
+
+% ==========================================
+% 10. SLUTSATSER [cite: 98]
+% ==========================================
+\section{Slutsatser}
+I detta avsnitt ska ni summera rapporten och presentera slutsatser. Ge en kort översikt av frågeställningen. Ni ska sedan tydligt tala om de viktigaste resultaten, förklara deras signifikans och sätta in dem i sitt sammanhang.
+
+Alla slutsatser ska ha stöd i tidigare delar av rapporten. Ni ska däremot inte presentera nya detaljer. En expert ska kunna läsa detta avsnitt oberoende av resten av rapporten.
+
+% ==========================================
+% 11. FRAMTIDA ARBETE [cite: 103]
+% ==========================================
+\section{Framtida arbete}
+Här ska ni diskutera vad som återstår att göra. Ni kan ta upp förbättringar som kan göras, och utvidgningar av ert arbete som kan resultera i nya frågeställningar för framtiden.
+
+% ==========================================
+% REFERENSER [cite: 105]
+% ==========================================
+\newpage
+% This prints the bibliography. Make sure to have a references.bib file.
+\printbibliography[heading=bibintoc, title={Referenser}]
+
+\textit{Instruktioner för referenser:}
+Referenser ska anges enligt IEEE-standarden. I den löpande texten anger ni referenserna med siffror (löpnummer) i hakparentes, t.ex. [1].
+
+% ==========================================
+% BILAGOR [cite: 125]
+% ==========================================
+\newpage
+\appendix
+\section{Bilagor}
+Övrig information som inte direkt passar in i texten, men som kan vara intressant för en läsare som vill fördjupa sig, placerar ni som bilagor sist i rapporten. Det kan t.ex. vara källkod till en implementation, testdata, bilder av en prototyp etc. Var samtidigt noga med att rapporten ska gå att läsa utan bilagorna.
+
+\end{document}
