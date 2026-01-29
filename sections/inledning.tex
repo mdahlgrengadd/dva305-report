@@ -1,0 +1,41 @@
+% ==========================================
+% 1. INLEDNING [cite: 46, 175]
+% ==========================================
+\section*{Inledning}
+\addcontentsline{toc}{section}{Inledning} 
+%I inledningen ska ni introducera ämnet för ert arbete och motivera varför det är viktigt. Inledningen ska vara allmän och syftar till att ge läsaren en introduktion till ämnet och leder läsaren in i texten.
+
+%Följande bör ingå:
+%\begin{itemize}
+%    \item Presentation av området och ämnet för arbetet. Det här bör komma tidigt och ska fånga intresset.
+%    \item Presentationen kan också innehålla eventuellt viktiga definitioner av begrepp.
+%    \item Presentation av ert arbete inklusive syfte och frågeställning. Observera att frågeställningen beskrivs i detalj senare i rapporten. Men läsaren behöver få en förståelse för frågeställningen inför avsnittet bakgrund.
+%    \item Motivation till varför uppgiften är intressant och varför frågeställningen är relevant.
+%\end{itemize}
+
+%Ingen specialiserad terminologi eller matematik bör ingå i inledningen. Efter inledningen ska läsaren och ni ha en bas av gemensam förståelse.
+Behovet att optimera lagring och läsning av bilder har sedan länge varit en stor och viktig del inom datavetenskapen och således föremål för intensiv forskning [?]. I och med informationssamhällets framväxt har det uppstått ett allt större behov av att kunna lagra filerna så kompakt som möjligt för att vi ska kunna hantera denna växande mängd av data på våra enheter [?]. Utvecklingen har framgångsrikt lett till nya algoritmer som på effektiva sätt kunnat inhämta och presentera bildinformationen från olika lagrings- eller strömningsmedia [?]. 
+
+Traditionellt sett har bilder mestadels redigerats i bildbehandlingsprogram såsom Photoshop eller Gimp. Bilden har behandlats utifrån sin rumsliga struktur med pixeln som viktigaste beståndsdel. Bildredigering har i dessa program framförallt handlat om att skala, rotera eller ändra färgen på enskilda pixlar eller grupper av pixlar. Huvudsyftet har varit att möjliggöra ett intuitivt sätt att arbeta med bilder för oss människor [?]. I detta sammanhang har populära filformat såsom JPG, PNG och AVIF sakta utformats för att tjäna detta syfte på bästa sätt [?]. 
+
+
+
+Med framväxten av maskininlärning (ML) och djupinlärning (DL) har nya sätt att bearbeta bilder introducerats [?]. Istället för att manipulera pixlar direkt i det visuella planet finns nu möjligheter att arbeta med bildens semantiska innehåll i en s.k. latent representation [?]. En ML-modell kan med denna latenta representation som grund generera en, eller flera visuellt lika (eller olika) bilder på skärmen [?]. \begin{wrapfigure}{r}{0.42\textwidth}
+    \vspace{-10pt} % optional tuning
+    \centering
+    \includegraphics[width=0.40\textwidth]{images/latent.png}
+    \caption{Exempel på latent}
+    \label{fig:kodim23}
+\end{wrapfigure}Eftersom ML-modeller inte behöver tolka bilder utifrån samma strukturella ordning som människor, kan bildinformationen omstruktureras på nya sätt som bättre passar modellens syfte [?]. Målet med dessa ML-baserade metoder är inte i första hand att minimera filstorleken, utan genom att komprimera bort överflödig information underlättar man beräkningsarbetet och ökar på så sätt även prestandan i modellerna [?].
+Ser man enbart till filstorlek kontra bildkvalitet är dagens etablerade kompressionsalgoritmer redan mycket effektiva. Till exempel kan dessa med lätthet krympa bildens filstorlek upp till 60 gånger jämfört med originalet [?]. Detta med en kvalitet som för blotta ögat är nästintill omöjlig att särskilja från originalbilden. Dessutom kan sådana komprimerade bildfiler öppnas på bara några millisekunder. Detta till trots finns ingen egentlig fördel med att använda dessa bildformat i ML-modeller. I komprimerat tillstånd är bildinformationen kodad på ett sätt som gör det omöjligt att bearbeta bilden vidare utan att först återföra den till sin fulla storlek, varpå alla fördelarna har gått förlorade. [?]. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/flow.png}
+    \caption{Översikt av flödet}
+    \label{fig:placeholder}
+\end{figure}
+
+
+Tack vare att ML-modeller som tidigare nämnts inte behöver ha bilder i ett direkt visuellt format under bearbetningen forskas det på att skapa mer kompakta representationer av bilddata som samtidigt behåller semantisk information. Mycket av den information som krävs enbart för att återge bilden kan utelämnas tills modellen är klar och den slutliga bilden ska visualiseras [?]. Resultatet blir ett kompakt dataformat som ändå behåller det viktigaste för att beskriva vad bilden föreställer. Med ett sådant format kan bilder både ta mindre plats på hårddisken och matas direkt in i ML-modeller utan tunga mellanliggande steg för bearbetning och rekonstruktion [?]. Detta kan i så fall visa sig särskilt värdefullt när man arbetar med väldigt stora bilder eller stora mängder bilddata, såsom till exempel högupplösta fotografier eller video där traditionell hantering skulle vara ineffektiv [?]. 

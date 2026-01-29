@@ -1,0 +1,19 @@
+% ==========================================
+% 4. METOD [cite: 66, 195]
+% ==========================================
+\section*{Metod}
+\addcontentsline{toc}{section}{Metod} 
+%I det här avsnittet ska ni beskriva vilken vetenskaplig metod ni har använt och hur ni har gått tillväga med arbetet att besvara frågeställningen. Ni kan t.ex. ha gjort en matematisk modell, använt simuleringar, gjort en implementation som ni testat eller gjort experiment som ni kanske utvärderat med hjälp av statistiska metoder.
+
+%Metod-avsnittet svarar också på varför ni gjorde på ett visst sätt eller varför ni använde ett visst verktyg. Ni ska alltså inte bara beskriva "vad" utan också "varför". Ställ dig frågan: kan den valda metoden hjälpa mig att besvara frågeställningen?
+Vi väljer 20 bilder från Flickr 8k Datfaset (eller alternativt The Kodak Lossless True Color Image Suite). 
+
+Bilderna konverteras med SDXL:s VAE (madebyollin/sdxl-vae-fp16-fix ) för att omvandla varje bild till dess latenta rymd, exempelvis 128x128x4@f32 om bilden är 1024x1024xRGB (HxWxC). 
+
+Istället för flyttal kvantifierar vi värderna som heltal med 8/10/12/16 bitar och sparar som vanligt bildformat (RGBA) inför nästa steg. 
+
+Bilddatan komprimeras med PNG respektive AVIF i tre olika kvalitetslägen, låg/medel/hög (vilket ger olika filstorlekar). AVIF väljs då detta format stödjer fyra kanaler (RGBA), till skillnad från JPG (RGB). 
+
+Slutligen återskapas varje latent representation från de komprimerade filerna och omvandlas tillbaka med samma VAE till en RGB‑bild. 
+
+Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och varje rekonstruktion och jämför dessa med respektive filstorlek. 
