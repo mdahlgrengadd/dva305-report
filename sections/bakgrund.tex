@@ -78,7 +78,7 @@ Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till
  Vid kvantisering behöver en avvägning göras mellan att antingen välja färre bitar för mindre filstorlek, eller högre bitdjup med mindre kvalitetsförlust. Hur mycket detta i slutändan påverkar den slutgiltiga bildkvaliteten efter dekodning/rekonstruktion är en av de grundläggande frågorna vi vill undersöka med denna studie eftersom detta är ytterliggare en aspekt vid sidan av VAE:ns egna inverkan på bildkvaliteten.
 
 \subsection*{Kvalitetsmått för rekonstruktion}
-För att kvantitativt utvärdera hur väl en rekonstruerad bild överensstämmer med originalet används i denna studie två etablerade kvalitetsmått, nämligen PSNR och SSIM.
+För att kvantitativt kunna mäta och utvärdera hur väl en rekonstruerad bild överensstämmer med originalet används i denna studie två etablerade kvalitetsmått, nämligen PSNR och SSIM.
 
 \textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga avvikelsen mellan pixlar i originalbilden och den rekonstruerade bilden och uttrycks i decibel (dB). Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en bättre rekonstruktion~\cite{hore2010psnrssim}. Måttet är enkelt att beräkna och vida använt, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur vi människor  uppfattar bildkvalitet. Även i princip osynliga skillnader kan påverka värdet kraftigt.  \emph{<KÄLLA BEHÖVS>} 
 
