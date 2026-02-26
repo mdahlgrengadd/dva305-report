@@ -19,7 +19,7 @@ utvärdera rekonstruktioner.
 
 \subsection*{Autoencoders, VAE och latenta representationer}
 En \textit{autoencoder} är ett djupt neuralt nätverk vars syfte är att lära sig att representera data i en komprimerad form och därefter rekonstruera den ursprungliga datan med så liten förlust som möjligt.
-Nätverket består av två delar: en \textit{encoder} som omvandlar indatan till en kompakt representation, och en \textit{decoder} som återskapar datan från denna representation.
+Nätverket består av två delar, en \textit{encoder} som omvandlar källdatan till en kompakt representation, och en \textit{decoder} som återskapar datan från denna representation.
 Genom att ett mellanliggande lager i nätverket har lägre dimension än indatan uppstår en så kallad \textit{flaskhals}, vilket tvingar nätverket att identifiera och bevara de mest väsentliga egenskaperna i datan. Den kompakta representationen som uppstår i flaskhalsen kallas för en \textit{latent representation}, och det rum som alla sådana representationer spänner upp benämns \textit{latent rum}.
 
 \begin{figure}[h]
@@ -73,7 +73,7 @@ Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till
 \subsection*{Kvalitetsmått för rekonstruktion}
 För att kvantitativt utvärdera hur väl en rekonstruerad bild överensstämmer med originalet används i denna studie två etablerade kvalitetsmått, nämligen PSNR och SSIM.
 
-\textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga avvikelsen mellan pixlar i originalbilden och den rekonstruerade bilden, uttryckt i decibel (dB). Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en bättre rekonstruktion~\cite{hore2010psnrssim}. Måttet är enkelt att beräkna och vida använt, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur vi människor  uppfattar bildkvalitet. \emph{<KÄLLA BEHÖVS>} 
+\textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga avvikelsen mellan pixlar i originalbilden och den rekonstruerade bilden och uttrycks i decibel (dB). Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en bättre rekonstruktion~\cite{hore2010psnrssim}. Måttet är enkelt att beräkna och vida använt, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur vi människor  uppfattar bildkvalitet. Även i princip osynliga skillnader kan påverka värdet kraftigt.  \emph{<KÄLLA BEHÖVS>} 
 
 \textit{SSIM} (\textit{Structural Similarity Index}) kompletterar PSNR genom att istället mäta strukturell likhet mellan bilderna. SSIM beaktar tre komponenter: luminans (ljusstyrka), kontrast och strukturell information, och kombinerar dessa till ett övergripande mått~\cite{hore2010psnrssim}. SSIM-värden ligger i intervallet 0 till 1, där 1 innebär identiska bilder. Genom att fokusera på strukturella egenskaper snarare än enskilda pixelvärden ger SSIM en bedömning som bättre fångar övergripande likhet. Att använda båda måtten tillsammans är vanligt i bildbehandlingsstudier, eftersom de kompletterar varandra och inte mäter samma sak. \emph{<KÄLLA BEHÖVS>} 
 
