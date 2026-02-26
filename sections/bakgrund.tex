@@ -55,18 +55,18 @@ Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att
 \subsection*{SD/SDXL och dess VAE}
 SD/SDXL (\textit{Stable Diffusion/XL}) är en latent diffusionsmodell utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från tidigare generationers diffusionsmodeller som arbetade direkt med pixelvärden utför SD/SDXL hela diffusionsprocessen i ett latent rum, vilket avsevärt minskar antalet beräkningar som behövs. 
 
-Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen 1024\texttimes1024\texttimes3 och komprimerar den till en representation med dimensionen 128\texttimes128\texttimes4, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från 3 (RGB) till 4 dimensioner. Dessa fyra kanaler representerar inte längre färger, utan kallas 'features'. 
+Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen 10241024\texttimes3 och komprimerar den till en representation med dimensionen 128\texttimes128\texttimes4, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från 3 (RGB) till 4 dimensioner. Dessa fyra kanaler representerar inte längre färger, utan kallas 'features'. 
 
 Den latenta representation kan sedan användas i efterföljande diffusionsprocess som stegivs lägger till eller tar bort brus för att generera nya bilder. Denna process sker helt i detta komprimerade latenta rum. När processen är klar avkodar VAE:ns decoder den latenta representationen tillbaka till en fullupplöst RGB-bild igen.
 
-Arkitekturen gör det möjligt att generera bilder med hög kvalitet men med en bråkdel av den beräkningskostnad som skulle krävas om diffusionsprocessen utfördes direkt på pixelvärden.
+Arkitekturen gör det möjligt att generera bilder med hög kvalitet men med en bråkdel av den beräkningskostnad som skulle krävas om diffusionsprocessen utfördes direkt på pixelvärden. 
 
-I vår studie använder vi samma VAE:n men fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, utan diffusionsprocessen.
+Olika diffusionsmodeller använder olika format för sina latenta representationer, till exempel använder FLUX, som är en senare  motsvarighet till SDXL formatet 16\texttimes128\texttimes128. I vår studie använder vi SDXLs VAE:n men fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem utan diffusionsprocessen. Vi använder SDXLs format då det är enkelt att mappa de fyra kanalerna till RGBA för vidare hantering i bildbehandlingsverktyg.
 
 \subsection*{Kvantisering och lagring av latenta representationer}
 De latenta representationer som SDXL:s VAE producerar lagras i 16/32-bitars flyttalsformat vilket ger en hög nogrannhet. Dock är det bättre från kompremeringssynpunkt att omvandla dessa till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
 
-Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till ett diskret antal heltalsnivåer. Antalet tillgängliga nivåer bestäms av det valda bitdjupet: 8-bitars kvantisering ger 256 nivåer, 10-bitars ger 1\,024 nivåer, 12-bitars ger 4\,096 nivåer och 16-bitars ger 65\,536 nivåer. Genom att representera de kvantiserade värdena som kanaler i en RGBA-bild kan resultatet sedan lagras med konventionella bildformat som AVIF eller PNG.
+Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till ett diskret antal heltalsnivåer. Antalet tillgängliga nivåer bestäms av det valda bitdjupet. Till exempel får man med 8-bitars kvantisering 256 nivåer, medan 10-bitar ger 1\,024 nivåer. Ökar man bitdjupet ytterliggare till 12-bitar erhålls 4\,096 nivåer och vid 16-bitars bitdjup når man 65\,536 nivåer. Genom att representera de kvantiserade värdena som kanaler i en RGBA-bild kan resultatet sedan lagras med konventionella bildformat som AVIF eller PNG.
 
 \begin{figure}[h]
     \centering
