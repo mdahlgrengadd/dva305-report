@@ -32,7 +32,7 @@
 ]
 
 % Nodes
-\node[box=orange] (latent) {Float32\\latent};
+\node[box=orange] (latent) {Latent};
 
 \node[box=green, right=18mm of latent] (quant) {Kvantisering};
 
@@ -50,10 +50,10 @@
 
 % Annotations below
 \node[note, below=6mm of latent]   {32-bit\\flyttal};
-\node[note, below=6mm of quant]    {Linjär\\mappning};
+\node[note, below=6mm of quant]    {};
 \node[note, below=6mm of rgba]     {8/10/12/16\\bit per kanal};
 \node[note, below=6mm of compress] {AVIF / PNG};
-\node[note, below=6mm of file]     {Komprimerad\\lagring};
+\node[note, below=6mm of file]     {Lagring};
 
 \end{tikzpicture}
 \end{document}
