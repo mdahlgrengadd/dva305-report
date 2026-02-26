@@ -20,7 +20,7 @@ utvärdera rekonstruktioner.
 \subsection*{Autoencoders, VAE och latenta representationer}
 En \textit{autoencoder} är ett djupt neuralt nätverk vars syfte är att lära sig att representera data i en komprimerad form och därefter rekonstruera den ursprungliga datan med så liten förlust som möjligt.
 Nätverket består av två delar, en \textit{encoder} som omvandlar källdatan till en kompakt representation, och en \textit{decoder} som återskapar datan från denna representation.
-Genom att ett mellanliggande lager i nätverket har lägre dimension än källan uppstår en så kallad \textit{flaskhals}, vilket tvingar nätverket att identifiera och bevara de mest väsentliga egenskaperna i datan. Den kompakta representationen som uppstår i flaskhalsen kallas för en \textit{latent representation}.
+Genom att ett mellanliggande lager i nätverket har lägre dimension än källan uppstår en så kallad \textit{flaskhals}, vilket tvingar nätverket att identifiera och bevara de mest väsentliga egenskaperna i datan. Den kompakta representationen som uppstår i flaskhalsen kallas för en \textit{latent representation}, eller \textit{latent space}.
 
 \begin{figure}[h]
     \centering
@@ -43,12 +43,19 @@ En \textit{variational autoencoder} (VAE) löser detta genom att encodern inte u
 
 Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att minimera skillnaden mellan källdata och rekonstruerad data, det vill säga att bevara så mycket information som möjligt. Det andra målet är att den inlärda latenta fördelningen ska ligga nära en fördefinierad referensfördelning. Avvikelsen mellan dessa fördelningar mäts och minimeras. Detta gör att det latenta rummet blir mer kontinuerligt och välordnat, så att närliggande punkter i högre grad motsvarar semantiskt liknande innehåll~\cite{kingma2022autoencodingvariationalbayes}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/oversimplified.jpg}
+    \caption{<HÄNVISA TILL KÄLLAN>}
+    \label{fig:placeholder}
+\end{figure}
+
 %En konsekvens av detta är att rekonstruktionerna ibland blir något suddigare jämfört med en autoencoder, eftersom modellen måste balansera  en korrekt rekonstruktion mot ett strukturerat/kontinuerligt latent rum. Dock är detta  just den egenskap som VAE särskilt lämpar sig för i  generativa modeller där man vill kunna bearbeta data i ett kompakt och välorganiserat utrymme.
 
-\subsection*{SDXL och dess VAE}
-SDXL (\textit{Stable Diffusion XL}) är en latent diffusionsmodell utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från diffusionsmodeller som arbetar direkt i pixelrymden utför SDXL hela diffusionsprocessen i ett latent rum, vilket avsevärt minskar antalet beräkningar som behövs. 
+\subsection*{SD/SDXL och dess VAE}
+SD/SDXL (\textit{Stable Diffusion/XL}) är en latent diffusionsmodell utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från tidigare generationers diffusionsmodeller som arbetade direkt med pixelvärden utför SD/SDXL hela diffusionsprocessen i ett latent rum, vilket avsevärt minskar antalet beräkningar som behövs. 
 
-Omvandlingen mellan pixelrymden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen 1024\texttimes1024\texttimes3 och komprimerar den till en latent tensor med dimensionen 128\texttimes128\texttimes4, vilket innebär att bildens höjd och bredd komprimeras med en faktor 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från 3 (RGB) till 4 dimensioner. Dessa fyra kanaler representerar inte längre färger, utan kallas 'features'. 
+Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen 1024\texttimes1024\texttimes3 och komprimerar den till en latent med dimensionen 128\texttimes128\texttimes4, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från 3 (RGB) till 4 dimensioner. Dessa fyra kanaler representerar inte längre färger, utan kallas 'features'. 
 
 Den latenta representation kan sedan användas i efterföljande diffusionsprocess som iterativt lägger till och avlägsnar brus för att generera nya bilder. Detta sker helt i detta skapade kompakta latenta rum. När processen är klar avkodar VAE:ns decoder den latenta representationen tillbaka till en fullupplöst RGB-bild.
 
@@ -57,7 +64,7 @@ Denna arkitektur gör det möjligt att generera bilder med hög visuell kvalitet
 I vår studie är använder vi samma VAE:n fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, utan diffusionsprocessen.
 
 \subsection*{Kvantisering och lagring av latenta representationer}
-De latenta representationer som SDXL:s VAE producerar lagras i 16/32-bitars flyttalsformat vilket ger hög numerisk npgrannhet. Dock är det bättre att ur kompremeringssynpunkt omvandla dessa till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
+De latenta representationer som SDXL:s VAE producerar lagras i 16/32-bitars flyttalsformat vilket ger en hög nogrannhet. Dock är det bättre från kompremeringssynpunkt att omvandla dessa till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
 
 Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till ett diskret antal heltalsnivåer. Antalet tillgängliga nivåer bestäms av det valda bitdjupet: 8-bitars kvantisering ger 256 nivåer, 10-bitars ger 1\,024 nivåer, 12-bitars ger 4\,096 nivåer och 16-bitars ger 65\,536 nivåer. Genom att representera de kvantiserade värdena som kanaler i en RGBA-bild kan resultatet sedan lagras med konventionella bildformat som AVIF eller PNG.
 
