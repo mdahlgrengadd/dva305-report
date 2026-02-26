@@ -1,9 +1,9 @@
-\documentclass[tikz,border=6pt]{standalone}
+\documentclass[tikz,border=10pt]{standalone}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{arrows.meta,calc,fit,backgrounds}
 \usepackage{xcolor}
 \renewcommand{\familydefault}{\sfdefault}
-\pagecolor{white!12}
+\pagecolor{gray!8}
 
 % -------------------------
 % Parameters
@@ -26,19 +26,24 @@
 % keeps arrow tips slightly off the node border (like the reference)
 \newcommand{\CalloutGap}{2.2mm}
 
-\colorlet{InputColor}{green!18!white}
-\colorlet{LatentColor}{orange!10!white}
-\colorlet{OutputColor}{blue!12!white}
+% Colours (matching the VAE diagram)
+\colorlet{encFill}{green!15!white}
+\colorlet{encStroke}{green!55!black}
+\colorlet{latentFill}{orange!15!white}
+\colorlet{latentStroke}{orange!55!black}
+\colorlet{decFill}{blue!10!white}
+\colorlet{decStroke}{blue!45!black}
+\colorlet{wireColor}{black!35}
 
 % -------------------------
 % Helpers
 % -------------------------
-\newcommand{\PlaceLayer}[4]{%
-  % #1 prefix, #2 count, #3 x-position, #4 fill color
+\newcommand{\PlaceLayer}[5]{%
+  % #1 prefix, #2 count, #3 x-position, #4 fill color, #5 stroke color
   \pgfmathsetmacro{\HalfSpan}{(#2-1)/2}
   \foreach \i in {1,...,#2}{%
     \pgfmathsetmacro{\y}{(\HalfSpan-(\i-1))*\LayerSep}
-    \node[circle,draw=black,thin,minimum size=\NeuronSize,inner sep=0pt,fill=#4]
+    \node[circle,draw=#5,line width=0.5pt,minimum size=\NeuronSize,inner sep=0pt,fill=#4]
       (#1\i) at (#3,\y) {};
   }%
 }
@@ -47,7 +52,7 @@
   % #1 left prefix, #2 left count, #3 right prefix, #4 right count
   \foreach \i in {1,...,#2}{%
     \foreach \j in {1,...,#4}{%
-      \draw[black,thin] (#1\i) -- (#3\j);
+      \draw[wireColor,line width=0.3pt] (#1\i) -- (#3\j);
     }%
   }%
 }
@@ -61,11 +66,11 @@
 ]
 
 % Layers
-\PlaceLayer{I}{\NInput}{\XInput}{InputColor}
-\PlaceLayer{E}{\NEncoder}{\XEncoder}{InputColor}
-\PlaceLayer{L}{\NLatent}{\XLatent}{LatentColor}
-\PlaceLayer{D}{\NDecoder}{\XDecoder}{OutputColor}
-\PlaceLayer{O}{\NOutput}{\XOutput}{OutputColor}
+\PlaceLayer{I}{\NInput}{\XInput}{encFill}{encStroke}
+\PlaceLayer{E}{\NEncoder}{\XEncoder}{encFill}{encStroke}
+\PlaceLayer{L}{\NLatent}{\XLatent}{latentFill}{latentStroke}
+\PlaceLayer{D}{\NDecoder}{\XDecoder}{decFill}{decStroke}
+\PlaceLayer{O}{\NOutput}{\XOutput}{decFill}{decStroke}
 
 % Connections
 \ConnectLayers{I}{\NInput}{E}{\NEncoder}
@@ -74,9 +79,9 @@
 \ConnectLayers{D}{\NDecoder}{O}{\NOutput}
 
 % Top arrows/labels
-\draw[<->,line width=0.95pt]
+\draw[<->,line width=0.8pt]
   (\XInput-0.2,4.05) -- node[above=2pt,title]{Encoder} (\XEncoder+0.9,4.05);
-\draw[<->,line width=0.95pt]
+\draw[<->,line width=0.8pt]
   (\XDecoder-0.9,4.05) -- node[above=2pt,title]{Decoder} (\XOutput+0.2,4.05);
 
 % Latent space callout: ONLY to the outer/top latent node (L1)
@@ -90,6 +95,18 @@
 % Encoded data callout: ONLY to the outer/bottom latent node (L2)
 \node[label] (encodedlabel) at (\XLatent,-3.25) {Flaskhals};
 \draw[callout] (encodedlabel.north) -- ($(L2.south)+(0,-\CalloutGap)$);
+
+% -------------------------
+% Background regions
+% -------------------------
+\begin{pgfonlayer}{background}
+  \node[rounded corners=10pt, fill=green!5, inner sep=8pt,
+        fit=(I1)(I\NInput)(E1)(E\NEncoder)] {};
+  \node[rounded corners=10pt, fill=orange!4, inner sep=10pt,
+        fit=(L1)(L\NLatent)] {};
+  \node[rounded corners=10pt, fill=blue!4, inner sep=8pt,
+        fit=(D1)(D\NDecoder)(O1)(O\NOutput)] {};
+\end{pgfonlayer}
 
 \end{tikzpicture}
 \end{document}
