@@ -61,7 +61,7 @@ Den latenta representation kan sedan användas i efterföljande diffusionsproces
 
 Arkitekturen gör det möjligt att generera bilder med hög kvalitet men med en bråkdel av den beräkningskostnad som skulle krävas om diffusionsprocessen utfördes direkt på pixelvärden.
 
-I vår studie är använder vi samma VAE:n men fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, utan diffusionsprocessen.
+I vår studie använder vi samma VAE:n men fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, utan diffusionsprocessen.
 
 \subsection*{Kvantisering och lagring av latenta representationer}
 De latenta representationer som SDXL:s VAE producerar lagras i 16/32-bitars flyttalsformat vilket ger en hög nogrannhet. Dock är det bättre från kompremeringssynpunkt att omvandla dessa till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
