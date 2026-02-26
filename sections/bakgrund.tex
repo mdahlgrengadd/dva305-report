@@ -28,9 +28,10 @@ Genom att ett mellanliggande lager i nätverket har lägre dimension än indatan
     \caption{Autoencoder med encoder, flaskhals och decoder.}
 \end{figure}
 
-En begränsning med vanliga autoencoders är att det latenta rummet saknar en garanterad struktur. Närliggande punkter i det latenta rummet behöver inte motsvara semantiskt liknande data, vilket gör det svårt att använda representationen för generativa ändamål.
+En begränsning med vanliga autoencoders är att det latenta rummet saknar en kontinuerligt organiserad struktur. Närliggande punkter i det latenta rummet behöver inte motsvara semantiskt liknande data, vilket gör det svårt att använda representationen för generativa ändamål.
+\emph{<GE EXEMPEL>}
 
-En \textit{variational autoencoder} (VAE) löser detta genom att encodern inte mappar varje datapunkt till en enskild punkt i det latenta rummet, utan istället till en sannolikhetsfördelning~\cite{kingma2022autoencodingvariationalbayes}. I praktiken innebär detta att encodern producerar två värden för varje latent dimension: ett medelvärde som anger fördelningens centrum, och en varians som anger hur utspridd fördelningen är kring detta centrum. Från denna fördelning samplas sedan en latent vektor som skickas vidare till decodern.
+En \textit{variational autoencoder} (VAE) löser detta genom att encodern inte unikt omvandlar varje datapunkt till en enskild punkt i det latenta rummet, utan istället till en sannolikhetsfördelning~\cite{kingma2022autoencodingvariationalbayes}. Encodern producerar två värden för varje latent dimension: ett medelvärde som anger fördelningens centrum, och en varians som anger hur utspridd fördelningen är kring detta centrum. Från denna fördelning samplas sedan en latent vektor som skickas vidare till decodern \emph{<HÄNVISA TILL FIGUR>}.
 
 \begin{figure}[h]
     \centering
@@ -38,23 +39,27 @@ En \textit{variational autoencoder} (VAE) löser detta genom att encodern inte m
     \caption{Variational autoencoder med reparameterisering.}
 \end{figure}
 
-För att modellen ska kunna tränas med gradientbaserade metoder, trots att samplingen i sig inte är deriverbar, används det så kallade \textit{reparameteriseringstricket}. Istället för att sampla den latenta vektorn direkt från fördelningen, beräknas den genom att addera en slumpmässig störning, skalad med variansen, till medelvärdet. På detta sätt kan gradienter fortfarande beräknas genom hela nätverket~\cite{kingma2022autoencodingvariationalbayes}.
+%För att modellen ska kunna tränas med gradientbaserade metoder, trots att samplingen i sig inte är deriverbar, används det så kallade \textit{reparameteriseringstricket}. Istället för att sampla den latenta vektorn direkt från fördelningen, beräknas den genom att addera en slumpmässig störning, skalad med variansen, till medelvärdet. På detta sätt kan gradienter fortfarande beräknas genom hela nätverket~\cite{kingma2022autoencodingvariationalbayes}.
 
-Vid träning optimeras VAE:n med två mål samtidigt. Det första målet är att minimera skillnaden mellan indata och rekonstruerad utdata, det vill säga att bevara så mycket information som möjligt. Det andra målet är att den inlärda latenta fördelningen ska ligga nära en fördefinierad referensfördelning. Avvikelsen mellan dessa fördelningar mäts med ett statistiskt mått kallat \textit{KL-divergens}, som kvantifierar hur mycket den inlärda fördelningen skiljer sig från referensfördelningen. Denna regularisering gör att det latenta rummet blir mer kontinuerligt och välordnat, så att närliggande punkter i högre grad motsvarar semantiskt liknande innehåll~\cite{kingma2022autoencodingvariationalbayes}.
+Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att minimera skillnaden mellan källdata och rekonstruerad data, det vill säga att bevara så mycket information som möjligt. Det andra målet är att den inlärda latenta fördelningen ska ligga nära en fördefinierad referensfördelning. Avvikelsen mellan dessa fördelningar mäts och minimeras. Detta gör att det latenta rummet blir mer kontinuerligt och välordnat, så att närliggande punkter i högre grad motsvarar semantiskt liknande innehåll~\cite{kingma2022autoencodingvariationalbayes}.
 
-En konsekvens av denna regularisering är att rekonstruktionerna ibland blir något suddigare jämfört med en deterministisk autoencoder, eftersom modellen måste balansera trogen rekonstruktion mot ett strukturerat latent rum. Trots detta gör just denna egenskap VAE särskilt lämplig som komponent i latenta generativa modeller, där man vill kunna bearbeta data i ett kompakt och välorganiserat utrymme.
+%En konsekvens av detta är att rekonstruktionerna ibland blir något suddigare jämfört med en autoencoder, eftersom modellen måste balansera  en korrekt rekonstruktion mot ett strukturerat/kontinuerligt latent rum. Dock är detta  just den egenskap som VAE särskilt lämpar sig för i  generativa modeller där man vill kunna bearbeta data i ett kompakt och välorganiserat utrymme.
 
 \subsection*{SDXL och dess VAE}
-SDXL (\textit{Stable Diffusion XL}) är en latent diffusionsmodell utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från diffusionsmodeller som arbetar direkt i pixelrymden utför SDXL hela diffusionsprocessen i ett latent rum, vilket avsevärt minskar beräkningskostnaden.
+SDXL (\textit{Stable Diffusion XL}) är en latent diffusionsmodell utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från diffusionsmodeller som arbetar direkt i pixelrymden utför SDXL hela diffusionsprocessen i ett latent rum, vilket avsevärt minskar antalet beräkningar som behövs. 
 
-En central komponent i SDXL är dess VAE, som ansvarar för att översätta bilder mellan pixeldomänen och det latenta rummet. Encodern i denna VAE tar en bild med upplösningen 1024\texttimes1024 pixlar i RGB och komprimerar den till en latent tensor med dimensionen 128\texttimes128\texttimes4, vilket innebär en rumslig komprimering med en faktor 8 i vardera riktning~\cite{podell2024sdxl}. Diffusionsprocessen, som iterativt lägger till och avlägsnar brus för att generera nya bilder, sker sedan helt i detta kompakta latenta rum. När processen är klar avkodar VAE:ns decoder den latenta representationen tillbaka till en fullupplöst RGB-bild.
+Omvandlingen mellan pixelrymden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen 1024\texttimes1024\texttimes3 och komprimerar den till en latent tensor med dimensionen 128\texttimes128\texttimes4, vilket innebär att bildens höjd och bredd komprimeras med en faktor 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från 3 (RGB) till 4 dimensioner. Dessa fyra kanaler representerar inte längre färger, utan kallas 'features'. 
 
-Denna arkitektur gör det möjligt att generera bilder med hög visuell kvalitet till en bråkdel av den beräkningskostnad som skulle krävas om diffusionsprocessen utfördes direkt i pixelrymden. Samma VAE kan även användas fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, vilket är utgångspunkten för denna studie.
+Den latenta representation kan sedan användas i efterföljande diffusionsprocess som iterativt lägger till och avlägsnar brus för att generera nya bilder. Detta sker helt i detta skapade kompakta latenta rum. När processen är klar avkodar VAE:ns decoder den latenta representationen tillbaka till en fullupplöst RGB-bild.
+
+Denna arkitektur gör det möjligt att generera bilder med hög visuell kvalitet till en bråkdel av den beräkningskostnad som skulle krävas om diffusionsprocessen utfördes direkt i pixelrymden. 
+
+I vår studie är använder vi samma VAE:n fristående för att komprimera befintliga bilder till latenta representationer och sedan rekonstruera dem, utan diffusionsprocessen.
 
 \subsection*{Kvantisering och lagring av latenta representationer}
-De latenta representationer som SDXL:s VAE producerar lagras i 32-bitars flyttalsformat (\textit{float32}), vilket ger hög numerisk precision men också resulterar i stor datavolym. För att möjliggöra effektiv lagring och överföring kan dessa flyttalsvärden omvandlas till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
+De latenta representationer som SDXL:s VAE producerar lagras i 16/32-bitars flyttalsformat vilket ger hög numerisk npgrannhet. Dock är det bättre att ur kompremeringssynpunkt omvandla dessa till heltal med lägre bitdjup genom en process som kallas \textit{kvantisering}.
 
-Vid kvantisering mappas det kontinuerliga intervallet av flyttalsvärden linjärt till ett diskret antal heltalsnivåer. Antalet tillgängliga nivåer bestäms av det valda bitdjupet: 8-bitars kvantisering ger 256 nivåer, 10-bitars ger 1\,024 nivåer, 12-bitars ger 4\,096 nivåer och 16-bitars ger 65\,536 nivåer. Genom att representera de kvantiserade värdena som kanaler i en RGBA-bild kan resultatet sedan lagras med konventionella bildformat som AVIF eller PNG.
+Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till ett diskret antal heltalsnivåer. Antalet tillgängliga nivåer bestäms av det valda bitdjupet: 8-bitars kvantisering ger 256 nivåer, 10-bitars ger 1\,024 nivåer, 12-bitars ger 4\,096 nivåer och 16-bitars ger 65\,536 nivåer. Genom att representera de kvantiserade värdena som kanaler i en RGBA-bild kan resultatet sedan lagras med konventionella bildformat som AVIF eller PNG.
 
 \begin{figure}[h]
     \centering
@@ -63,15 +68,14 @@ Vid kvantisering mappas det kontinuerliga intervallet av flyttalsvärden linjär
     \label{fig:kvantisering}
 \end{figure}
 
-Avvägningen vid kvantisering är tydlig: färre bitar per kanal ger en mindre filstorlek men innebär samtidigt en grövre diskretisering, vilket kan leda till informationsförlust. Hur stor denna förlust blir i praktiken, och hur den påverkar den slutgiltiga bildkvaliteten efter dekodning, är en av de centrala frågorna i denna studie.
+ Vid kvantisering behöver en avvägning göras mellan att antingen välja färre bitar för mindre filstorlek, eller högre bitdjup med mindre kvalitetsförlust. Hur mycket detta i slutändan påverkar den slutgiltiga bildkvaliteten efter dekodning/rekonstruktion är en av de grundläggande frågorna vi vill undersöka med denna studie eftersom detta är ytterliggare en aspekt vid sidan av VAE:ns egna inverkan på bildkvaliteten.
 
 \subsection*{Kvalitetsmått för rekonstruktion}
-För att kvantitativt utvärdera hur väl en rekonstruerad bild överensstämmer med originalet används i denna studie två etablerade kvalitetsmått: PSNR och SSIM.
+För att kvantitativt utvärdera hur väl en rekonstruerad bild överensstämmer med originalet används i denna studie två etablerade kvalitetsmått, nämligen PSNR och SSIM.
 
-\textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga pixelvisa avvikelsen mellan originalbilden och den rekonstruerade bilden, uttryckt i decibel. Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en mer trogen rekonstruktion~\cite{hore2010psnrssim}. Måttet är enkelt att beräkna och brett använt, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur det mänskliga synsinnet uppfattar bildkvalitet.
+\textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga avvikelsen mellan pixlar i originalbilden och den rekonstruerade bilden, uttryckt i decibel (dB). Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en bättre rekonstruktion~\cite{hore2010psnrssim}. Måttet är enkelt att beräkna och vida använt, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur vi människor  uppfattar bildkvalitet. \emph{<KÄLLA BEHÖVS>} 
 
-\textit{SSIM} (\textit{Structural Similarity Index}) kompletterar PSNR genom att istället mäta strukturell likhet mellan bilderna. SSIM beaktar tre komponenter: luminans (ljusstyrka), kontrast och strukturell information, och kombinerar dessa till ett övergripande likhetsmått~\cite{hore2010psnrssim}. SSIM-värden ligger i intervallet 0 till 1, där 1 innebär identiska bilder. Genom att fokusera på strukturella egenskaper snarare än enskilda pixelvärden ger SSIM en bedömning som bättre korrelerar med mänsklig perceptuell uppfattning. Att använda båda måtten tillsammans ger därför en mer nyanserad bild av rekonstruktionskvaliteten.
-
+\textit{SSIM} (\textit{Structural Similarity Index}) kompletterar PSNR genom att istället mäta strukturell likhet mellan bilderna. SSIM beaktar tre komponenter: luminans (ljusstyrka), kontrast och strukturell information, och kombinerar dessa till ett övergripande mått~\cite{hore2010psnrssim}. SSIM-värden ligger i intervallet 0 till 1, där 1 innebär identiska bilder. Genom att fokusera på strukturella egenskaper snarare än enskilda pixelvärden ger SSIM en bedömning som bättre fångar övergripande likhet. Att använda båda måtten tillsammans är vanligt i bildbehandlingsstudier, eftersom de kompletterar varandra och inte mäter samma sak. \emph{<KÄLLA BEHÖVS>} 
 
 %\subsection*{Övergång till studiens frågeställning}
 
