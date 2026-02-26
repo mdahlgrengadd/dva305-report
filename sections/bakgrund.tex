@@ -8,34 +8,66 @@
 
 
 \noindent
-Detta avsnitt introducerar de begrepp och tekniska komponenter som behövs för att
-förstå studiens frågeställning. Först beskrivs traditionell bildkomprimering,
-därefter autoencoders och variational autoencoders, följt av SDXL:s VAE,
-kvantisering av latenta representationer samt kvalitetsmåtten som används för att
+Med detta avsnitt introducerar vi de begrepp som kommer användas framöver i vår studie. Först beskriver vi hur bildkomprimering sker traditionellt.
+Därefter förklarar vi autoencoders och variational autoencoders, följt av SDXL, den specifika variant som används i studien. Vidare ges en beskrivning av nödvändiga begrepp såsom kvantisering samt kvalitetsmåtten som används för att
 utvärdera rekonstruktioner.
 
 \subsection*{Traditionell bildkomprimering}
-
+...på gång...
 
 \noindent
 
 \subsection*{Autoencoders, VAE och latenta representationer}
+En autoencoder (AE) som används för komprimering är ett djupt neuralt nätverk som bygger på principen att modellen lär sig att representera utvald data (ej nödvändigtvis bilddata) i en komprimerad form och därefter rekonstruera den ursprungliga datan från denna representation med så liten förlust som möjligt.
 
+\begin{figure}[h]
+    \centering
+    % Include the first page of the PDF
+    \includegraphics[width=0.5\textwidth, page=1]{images/autoencoder.pdf}
+    \caption{Autoencoder}
+\end{figure}
 
+Genom att använda sig av en flaskhals (bottleneck) där ett av lagren i nätverket har lägre dimension än källdatan, tvingas nätverket att komprimera datan. Denna representation kallas ofta för \textit{latent space}, eller kort och gott \textit{latent}. En nackdel med AE är att det inte finns något direkt samband mellan närliggande punkter i latenten, dvs de garanterar inte att närliggande semantisk data som hund och varg hamnar med närliggande punkter i latenten. 
+
+En variational autoencoder (VAE) löser detta genom att inte låta encodern mappa varje indataexempel till en enda punkt i den latenta rymden, utan i stället till en sannolikhetsfördelning \cite{kingma2022autoencodingvariationalbayes}. I praktiken representeras denna fördelning ofta med ett medelvärde $\mu$ och en varians $\sigma^2$, vilka beskriver var i den latenta rymden datapunkten sannolikt befinner sig. En latent vektor $z$ samplas därefter från denna fördelning och skickas vidare till decodern, som försöker rekonstruera originaldatan.
+
+Till skillnad från en vanlig autoencoder inför VAE alltså en probabilistisk struktur i latentrummet. Detta gör att latenta representationer blir mer kontinuerliga och mer regelbundet organiserade, vilket ökar sannolikheten att närliggande punkter i latenten motsvarar semantiskt liknande innehåll \cite{kingma2022autoencodingvariationalbayes}. En sådan egenskap är särskilt viktig i generativa modeller, där man vill kunna interpolera mellan olika representationer och ändå erhålla meningsfulla rekonstruktioner.
+
+Vid träning optimeras VAE:n med två mål samtidigt. Dels används en rekonstruktionsförlust som straffar skillnaden mellan indata och den rekonstruerade utdata. Dels används en regulariseringsterm i form av KL-divergens, som tvingar den inlärda latenta fördelningen att ligga nära en vald priorfördelning, vanligtvis en standardnormalfördelning \cite{kingma2022autoencodingvariationalbayes}. Rekonstruktionsledet gör att modellen bevarar så mycket information som möjligt, medan regulariseringstermen gör latentrummet mer strukturerat och användbart.
+
+Eftersom sampling inte är direkt deriverbar används det så kallade \textit{reparameterization trick}. I stället för att sampla $z$ direkt skrivs den latenta variabeln som
+\[
+z = \mu + \sigma \odot \epsilon,\quad \epsilon \sim \mathcal{N}(0, I),
+\]
+vilket gör det möjligt att propagera gradienter bakåt genom nätverket under träningen \cite{kingma2022autoencodingvariationalbayes}. Detta är en central komponent i hur VAE-modeller kan tränas effektivt med gradientbaserade metoder.
+
+En nackdel med denna regularisering är att rekonstruktionerna ibland blir något suddigare än i en deterministisk autoencoder, eftersom modellen måste balansera trogen rekonstruktion mot ett välordnat latent rum. Samtidigt gör just denna egenskap VAE särskilt lämplig som komponent i latenta generativa modeller. I modeller som SDXL används en VAE för att översätta bilder från pixelrymden till en mer kompakt latent representation, där vidare bearbetning kan ske med lägre beräkningskostnad, innan bilden slutligen avkodas tillbaka till RGB-domänen \cite{podell2024sdxl}.
+
+\newpage
+En Variational a
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/AE_VAE.png}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
+\end{figure}
 \noindent
 
 
 \subsection*{SDXL och dess VAE}
+...på gång...
 
 \noindent
 
 \subsection*{Kvantisering och lagring av latenta representationer}
+...på gång...
 
 
 \noindent
 
 
 \subsection*{Kvalitetsmått för rekonstruktion}
+...på gång...
 
 
 \noindent

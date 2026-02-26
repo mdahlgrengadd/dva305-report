@@ -1,0 +1,95 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+\usepackage{xcolor}
+\renewcommand{\familydefault}{\sfdefault}
+\pagecolor{white!12}
+
+% -------------------------
+% Parameters
+% -------------------------
+\newcommand{\NInput}{6}
+\newcommand{\NEncoder}{4}
+\newcommand{\NLatent}{2}
+\newcommand{\NDecoder}{4}
+\newcommand{\NOutput}{6}
+
+\newcommand{\XInput}{0}
+\newcommand{\XEncoder}{2.6}
+\newcommand{\XLatent}{5.0}
+\newcommand{\XDecoder}{7.4}
+\newcommand{\XOutput}{10.0}
+
+\newcommand{\LayerSep}{1.05}
+\newcommand{\NeuronSize}{7.8mm}
+
+% keeps arrow tips slightly off the node border (like the reference)
+\newcommand{\CalloutGap}{2.2mm}
+
+\colorlet{InputColor}{green!18!white}
+\colorlet{LatentColor}{orange!10!white}
+\colorlet{OutputColor}{blue!12!white}
+
+% -------------------------
+% Helpers
+% -------------------------
+\newcommand{\PlaceLayer}[4]{%
+  % #1 prefix, #2 count, #3 x-position, #4 fill color
+  \pgfmathsetmacro{\HalfSpan}{(#2-1)/2}
+  \foreach \i in {1,...,#2}{%
+    \pgfmathsetmacro{\y}{(\HalfSpan-(\i-1))*\LayerSep}
+    \node[circle,draw=black,thin,minimum size=\NeuronSize,inner sep=0pt,fill=#4]
+      (#1\i) at (#3,\y) {};
+  }%
+}
+
+\newcommand{\ConnectLayers}[4]{%
+  % #1 left prefix, #2 left count, #3 right prefix, #4 right count
+  \foreach \i in {1,...,#2}{%
+    \foreach \j in {1,...,#4}{%
+      \draw[black,thin] (#1\i) -- (#3\j);
+    }%
+  }%
+}
+
+\begin{document}
+\begin{tikzpicture}[
+  >=Stealth,
+  title/.style={font=\sffamily\bfseries\Large},
+  label/.style={font=\sffamily\bfseries\Large},
+  callout/.style={line width=0.95pt,-{Stealth[length=2.8mm,width=2mm]}}
+]
+
+% Layers
+\PlaceLayer{I}{\NInput}{\XInput}{InputColor}
+\PlaceLayer{E}{\NEncoder}{\XEncoder}{InputColor}
+\PlaceLayer{L}{\NLatent}{\XLatent}{LatentColor}
+\PlaceLayer{D}{\NDecoder}{\XDecoder}{OutputColor}
+\PlaceLayer{O}{\NOutput}{\XOutput}{OutputColor}
+
+% Connections
+\ConnectLayers{I}{\NInput}{E}{\NEncoder}
+\ConnectLayers{E}{\NEncoder}{L}{\NLatent}
+\ConnectLayers{L}{\NLatent}{D}{\NDecoder}
+\ConnectLayers{D}{\NDecoder}{O}{\NOutput}
+
+% Top arrows/labels
+\draw[<->,line width=0.95pt]
+  (\XInput-0.2,4.05) -- node[above=2pt,title]{Encoder} (\XEncoder+0.9,4.05);
+\draw[<->,line width=0.95pt]
+  (\XDecoder-0.9,4.05) -- node[above=2pt,title]{Decoder} (\XOutput+0.2,4.05);
+
+% Latent space callout: ONLY to the outer/top latent node (L1)
+\node[title] (latenttitle) at (\XLatent,5.1) {Latent Space};
+\draw[callout] (latenttitle.south) -- ($(L1.north)+(0,\CalloutGap)$);
+
+% Bottom labels
+\node[label] at (\XInput,-3.25) {Källdata};
+\node[label] at (\XOutput,-3.25) {Rekonstrukion};
+
+% Encoded data callout: ONLY to the outer/bottom latent node (L2)
+\node[label] (encodedlabel) at (\XLatent,-3.25) {Flaskhals};
+\draw[callout] (encodedlabel.north) -- ($(L2.south)+(0,-\CalloutGap)$);
+
+\end{tikzpicture}
+\end{document}
