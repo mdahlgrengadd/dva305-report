@@ -5,6 +5,27 @@
 \usepackage{polyglossia}
 \usepackage{graphicx}% not needed for the example
 \usepackage{tocloft}      
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}                                                   
+\usepackage[backend=biber, style=ieee]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{eso-pic}
+\usepackage{transparent}
+
+\AddToShipoutPictureFG{%
+  \AtPageCenter{%
+    \makebox(0,0){%
+      \rotatebox{45}{%
+        \transparent{0.25}%
+        \textcolor{gray}{\fontsize{100}{120}\selectfont\bfseries UTKAST}%
+      }%
+    }%
+  }%
+}
+
 %\usepackage{mathptmx}% not needed for the example
 %\usepackage{float}% not needed for the example
 %\usepackage{amsmath}% not needed for the example

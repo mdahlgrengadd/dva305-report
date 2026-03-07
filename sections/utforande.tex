@@ -1,26 +1,130 @@
 % ==========================================
 % 6. UTFÖRANDE [cite: 75, 204]
 % ==========================================
-\section*{Utförande}
-\addcontentsline{toc}{section}{Utförande} 
-\textit{(Obs: Ni ska inte använda rubriken ovan, utan ersätta den med lämplig rubrik beroende på ert arbete.)}
-    \vspace{0.5cm} % tweak this
+%\section*{Utförande}
+%\addcontentsline{toc}{section}{Utförande} 
+%\textit{(Obs: Ni ska inte använda rubriken ovan, utan ersätta den med lämplig rubrik beroende på ert arbete.)}
+%    \vspace{0.5cm} % tweak this
 
 %Efter avsnitten ovan följer nu en beskrivning av vad ni gjort. Strukturen ska göras tydlig genom avsnittsrubrikerna. Det är viktigt med en klar och tydlig logisk struktur och ett berättande flöde.
 
 %Ni ska ha med avancerad bakgrundskunskap som är nödvändig för att förstå hur ni löst uppgiften, och definiera hypoteser och viktiga begrepp. Beskrivning av experiment ska vara sådan att det ska gå att upprepa experimenten. Om en sådan beskrivning blir väldigt lång och detaljerad kan ni lägga den i en bilaga.
 
 
+% ==========================================
+% 6. UTFÖRANDE
+% ==========================================
+\section*{Experiment }
+\addcontentsline{toc}{section}{Experiment}
 
+%\subsection*{Dataset och bilder}
+Experimenten utfördes på \textit{Kodak Lossless True Color Image Suite} \cite{franzen1999kodak},
+en välkänd referensdatauppsättning inom bildkomprimering bestående av 24 fotografier
+med upplösningen 768\texttimes512 pixlar (eller 512\texttimes768 för stående motiv).
+%Bilderna är tagna med hög bildkvalitet och utan komprimeringsartefakter, och används flitigt i forskning för reproducerbara jämförelser av komprimeringsalgoritmer.
+Alla 24 bilder i datauppsättningen inkluderades i experimentet.
 
-Vi väljer 20 bilder från Flickr 8k Datfaset (eller alternativt The Kodak Lossless True Color Image Suite). 
+%\subsection*{Komprimeringsstrategier}
+Sex komprimeringsmetoder utvärderades för varje bild. För att utvärdera kvantisering utan inverkan av bildkomprimering användes \textit{NumPy NPZ} (\texttt{savez\_compressed}), ett komprimerat
+binärformat utan bildspecifika antaganden. Övriga metoder använde
+\textit{JPEG XL} (JXL), som anses för tillfället vara SOTA för såväl lossless som lossy komprimering <<REFERENS>>.
+För JXL testades lossless samt fyra grader av lossy
+med distansvärden 0{.}05, 0{.1, 0{.}5 och 1{.}0.
+Distansparametern styr avvikelsen från originalet där ett högre värde ger
+starkare komprimering men till priset av ökad förvrängning.
+Samtliga metoder sammanfattas i tabell~\ref{tab:strategier}.
 
-Bilderna konverteras med SDXL:s VAE (madebyollin/sdxl-vae-fp16-fix ) för att omvandla varje bild till dess latenta rymd, exempelvis 128x128x4@f32 om bilden är 1024x1024xRGB (HxWxC). 
+\begin{table}[h]
+\centering
+\caption{De sex komprimeringsstrategier som utvärderades i experimentet.}
+\label{tab:strategier}
+\begin{tabular}{ll}
+\hline
+\textbf{Metod} & \textbf{Beskrivning} \\
+\hline
+NPZ               & NumPy \texttt{savez\_compressed}, (lossless) \\
+JXL LL    & JPEG XL (lossless) \\
+JXL $d=0{,}05$   & JPEG XL lossy, distans $0{,}05$ \\
+JXL $d=0{,}1$    & JPEG XL lossy, distans $0{,}1$ \\
+JXL $d=0{,}5$    & JPEG XL lossy, distans $0{,}5$ \\
+JXL $d=1{,}0$    & JPEG XL lossy, distans $1{,}0$ \\
+\hline
+\end{tabular}
+\end{table}
 
-Istället för flyttal kvantifierar vi värderna som heltal med 8/10/12/16 bitar och sparar som vanligt bildformat (RGBA) inför nästa steg. 
+\subsection*{Experimentets uppsättning}
+Varje bild behandlades enligt en identisk uppsättning steg för alla sex metoder enligt figur \ref{fig:placeholder}.
+Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE
+(\texttt{madebyollin/sdxl-vae-fp16-fix}) till en latent
+med dimensionen $4 \times (H/8) \times (W/8)$ i 32-bitars flyttalsformat. $H$ och $W$ är originalbildens höjd respektive bredd i pixlar.
+Denna latent kvantiserades sedan till 8-bitars heltal. Värden utanför
+intervallet $[-4{,}0,\; 4{,}0]$ klipptes till gränserna.
+Detta gav 256 diskreta nivåer.
 
-Bilddatan komprimeras med PNG respektive AVIF i tre olika kvalitetslägen, låg/medel/hög (vilket ger olika filstorlekar). AVIF väljs då detta format stödjer fyra kanaler (RGBA), till skillnad från JPG (RGB). 
+Vidare omformades den kvantiserade värdena från
+$(4 \times L_h \times L_w)$ till $(L_h \times L_w \times 4)$,
+det vill säga ett RGBA-bildformat, och kodades med JXL-kodaren
+med \textit{effort} 9 (den högsta graden av effort).
+Vid rekonstruktion återfördes datan till $(4 \times L_h \times L_w)$.
+För NPZ-metoden sparades datan direkt med
+\texttt{numpy.savez\_compressed} och lästes tillbaka med \texttt{numpy.load}.
+Denna metod fungerar som vår baseline och övre gräns för lossless komprimering
+utan bildspecifika antaganden.
 
-Slutligen återskapas varje latent representation från de komprimerade filerna och omvandlas tillbaka med samma VAE till en RGB‑bild. 
+Därefter avkvantiserades den rekonstruerade datan tillbaka
+till 32-bitars flyttal, varpå SDXL:s VAE-decoder rekonstruerade
+den fulla RGB-bilden igen med varierande grad av komprimeringsartifakter.
+Rekonstruktionen jämfördes sedan med originalbilden med hjälp av
+kvalitetsmåtten PSNR och SSIM.
 
-Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och varje rekonstruktion och jämför dessa med respektive filstorlek. 
+%\begin{figure}[h]
+%\centering
+%\begin{tikzpicture}[
+%  block/.style={draw, rounded corners=2pt, fill=gray!8, text width=5cm,
+%                text centered, minimum height=1.8em, font=\small},
+%  note/.style={text width=4.5cm, font=\footnotesize\itshape, align=left},
+%  arrow/.style={-{Stealth[length=4pt]}, thick},
+%  node distance=0.5cm,
+%]
+%  \node[block] (img)    {RGB-bild ($H \times W \times 3$)};
+%  \node[block, below=of img]   (enc)   {VAE-encoder};
+%  \node[block, below=of enc]   (quant) {Kvantisering};
+%  \node[block, below=of quant] (comp)  {Komprimering};
+%  \node[block, below=of comp]  (decomp){Avkomprimering};
+%  \node[block, below=of decomp](deq)   {Avkvantisering};
+%  \node[block, below=of deq]   (dec)   {VAE-decoder};
+%  \node[block, below=of dec]   (recon) {Rekonstruerad RGB};
+%  \node[block, below=of recon] (eval)  {PSNR \quad SSIM \quad BPP};
+%
+%  \draw[arrow] (img)    -- (enc);
+%  \draw[arrow] (enc)    -- (quant);
+%  \draw[arrow] (quant)  -- (comp);
+%  \draw[arrow] (comp)   -- (decomp);
+%  \draw[arrow] (decomp) -- (deq);
+%  \draw[arrow] (deq)    -- (dec);
+%  \draw[arrow] (dec)    -- (recon);
+%  \draw[arrow] (recon)  -- (eval);
+%
+%  \node[note, right=1.3cm of enc.east]   {$4 \times \frac{H}{8} \times \frac{W}{8}$, float32};
+%  \node[note, right=1.3cm of quant.east] {8-bit, klipp $\pm 4{,}0$};
+%  \node[note, right=1.3cm of comp.east]  {NPZ / JXL (6 strategier)};
+%\end{tikzpicture}
+%\caption{Komprimeringspiepline som tillämpas identiskt för varje bild och strategi.
+%         För JXL-strategierna omformas det kvantiserade latentblocket till RGBA-format
+%         $(L_h \times L_w \times 4)$ inför kodning, och återformas vid avkodning.}
+%\label{fig:pipeline}
+%\end{figure}
+
+\subsection*{Mätning och utvärdering}
+För varje kombination av bild och metod beräknades tre mätvärden.
+\textit{PSNR} och \textit{SSIM} beräknades mellan originalbilden och
+den rekonstruerade RGB-bilden, som beskrivs i bakgrundsavsnittet.
+Därutöver beräknades \textit{bitar per pixel} (BPP) enligt
+\begin{equation}
+  \text{BPP} = \frac{\text{filstorlek (bitar)}}{W \times H},
+  \label{eq:bpp}
+\end{equation}
+där $W$ och $H$ är originalbildens dimensioner i pixlar.
+BPP möjliggör jämförelse av komprimeringseffektivitet oberoende av bildstorlek
+och är det standardiserade måttet vid utvärdering av bildkomprimeringsalgoritmer.
+Experimenten kördes med CUDA-acceleration på en NVIDIA GPU.

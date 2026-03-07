@@ -6,10 +6,26 @@
 %I det här avsnittet ska ni beskriva vilken vetenskaplig metod ni har använt och hur ni har gått tillväga med arbetet att besvara frågeställningen. Ni kan t.ex. ha gjort en matematisk modell, använt simuleringar, gjort en implementation som ni testat eller gjort experiment som ni kanske utvärderat med hjälp av statistiska metoder.
 
 %Metod-avsnittet svarar också på varför ni gjorde på ett visst sätt eller varför ni använde ett visst verktyg. Ni ska alltså inte bara beskriva "vad" utan också "varför". Ställ dig frågan: kan den valda metoden hjälpa mig att besvara frågeställningen?
-Vi arbetar efter en kvantitativ experimentell design där vi samlar in och analyserar data från utförda experiment. Experimenten utgår från en baseline, lossless PNG som sedan omvandlas med modellen. Vi studerar först effekten av kvantifieringen som är en traditionell komprimeringsmetod i sig själv. Därefter studerar vi effekter av lossless och lossy (3 kvalitetssteg) komprimering med JPEG XL. Vi studerar filstorleken och kvalitetsmåtten efter rekonstruktion med PSNR, MS-SSIM och LPIPS.
+Vi arbetar efter en kvantitativ experimentell design där vi samlar in och analyserar data från utförda experiment. Experimenten utgår från en baseline PNG-bild som sedan omvandlas med modellen. Vi studerar först effekten av kvantisieringen som är en traditionell komprimeringsmetod i sig själv. Därefter studerar vi effekter av komprimering med lossless och lossy (i tre kvalitetssteg)  genom JPEG XL. Vi studerar filstorleken och kvaliten efter rekonstruktion med PSNR och SSIM. <<SKA VI ANVÄNDA BPP?>>%och LPIPS.
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/flow.png}
+    \caption{Översikt av flödet}
+    \label{fig:placeholder}
+\end{figure}
 
 
 
+%Vi väljer 20 bilder från Flickr 8k Datfaset (eller alternativt The Kodak Lossless True Color Image Suite). 
 
+%Bilderna konverteras med SDXL:s VAE (madebyollin/sdxl-vae-fp16-fix ) för att omvandla varje bild till dess latenta rymd, exempelvis 128x128x4@f32 om bilden är 1024x1024xRGB (HxWxC). 
+
+%Istället för flyttal kvantifierar vi värderna som heltal med 8/10/12/16 bitar och sparar som vanligt bildformat (RGBA) inför nästa steg. 
+
+%Bilddatan komprimeras med PNG respektive AVIF i tre olika kvalitetslägen, låg/medel/hög (vilket ger olika filstorlekar). AVIF väljs då detta format stödjer fyra kanaler (RGBA), till skillnad från JPG (RGB). 
+
+%Slutligen återskapas varje latent representation från de komprimerade filerna och omvandlas tillbaka med samma VAE till en RGB‑bild. 
+
+%Vi mäter skillnaden uttryckt i PSNR och SSIM mellan den ursprungliga bilden och varje rekonstruktion och jämför dessa med respektive filstorlek. 
 
 
