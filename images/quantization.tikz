@@ -1,0 +1,116 @@
+\begin{tikzpicture}[
+    >=stealth,
+    level line/.style={dashed, black!30, line width=0.5pt},
+    quant signal/.style={thick, red!70!black, line join=round},
+    orig signal/.style={thick, blue!70!black, smooth, tension=0.6},
+    error fill/.style={fill=red!10, draw=none},
+    dot orig/.style={fill=blue!70!black, circle, minimum size=4pt, inner sep=0pt},
+    dot quant/.style={fill=red!70!black, circle, minimum size=4pt, inner sep=0pt},
+]
+
+% === CONFIGURATION ===
+\def\xmax{11}
+\def\ymax{8.5}
+\def\nlevels{8}        % number of quantization levels (0..7)
+\def\stepsize{1}       % vertical step per level
+
+% === QUANTIZATION LEVELS (background) ===
+\foreach \i in {0,...,7} {
+    \draw[level line] (0, \i*\stepsize) -- (\xmax, \i*\stepsize);
+    \node[anchor=east, font=\scriptsize\ttfamily, text=black!50]
+        at (-0.2, \i*\stepsize) {\i};
+}
+
+% === AXES ===
+\draw[->, thick] (-0.5, 0) -- (\xmax + 0.5, 0)
+    node[anchor=north, font=\small\bfseries] {Tid};
+\draw[->, thick] (0, -0.5) -- (0, \ymax + 0.3)
+    node[anchor=south, font=\small\bfseries] {Amplitud};
+
+% === QUANTIZATION LEVEL BRACKET ===
+\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick, black!60]
+    (\xmax + 0.3, 2*\stepsize) -- (\xmax + 0.3, 3*\stepsize)
+    node[midway, right=6pt, font=\scriptsize, align=left] {$\Delta$ stegstorlek};
+
+% === ORIGINAL CONTINUOUS SIGNAL (smooth curve) ===
+% Define sample points: (x, continuous_y)
+%   x from 0.5 to 10.5 in steps of 1
+%   y values chosen to make a nice wave shape
+\def\samplepoints{
+    0.5/1.2,  1.5/3.1,  2.5/5.4,  3.5/6.8,
+    4.5/7.2,  5.5/5.9,  6.5/3.6,  7.5/2.1,
+    8.5/3.4,  9.5/5.6,  10.5/4.8
+}
+
+% Draw the smooth original signal
+\draw[orig signal] plot[smooth, tension=0.5] coordinates {
+    (0.5, 1.2)  (1.5, 3.1)  (2.5, 5.4)  (3.5, 6.8)
+    (4.5, 7.2)  (5.5, 5.9)  (6.5, 3.6)  (7.5, 2.1)
+    (8.5, 3.4)  (9.5, 5.6)  (10.5, 4.8)
+};
+
+% === QUANTIZED SIGNAL (staircase) ===
+% Quantized values = round to nearest integer level
+% 1.2->1, 3.1->3, 5.4->5, 6.8->7, 7.2->7, 5.9->6, 3.6->4, 2.1->2, 3.4->3, 5.6->6, 4.8->5
+\def\quantpoints{
+    0.5/1, 1.5/3, 2.5/5, 3.5/7,
+    4.5/7, 5.5/6, 6.5/4, 7.5/2,
+    8.5/3, 9.5/6, 10.5/5
+}
+
+% Error shading between original and quantized
+\foreach \xv/\yv [count=\ci] in {
+    0.5/1, 1.5/3, 2.5/5, 3.5/7,
+    4.5/7, 5.5/6, 6.5/4, 7.5/2,
+    8.5/3, 9.5/6, 10.5/5
+}{
+    % get original y from parallel list
+    \pgfmathsetmacro{\origy}{%
+        (\ci==1)  * 1.2 + (\ci==2)  * 3.1 + (\ci==3)  * 5.4 +
+        (\ci==4)  * 6.8 + (\ci==5)  * 7.2 + (\ci==6)  * 5.9 +
+        (\ci==7)  * 3.6 + (\ci==8)  * 2.1 + (\ci==9)  * 3.4 +
+        (\ci==10) * 5.6 + (\ci==11) * 4.8%
+    }
+    \fill[error fill] (\xv-0.08, \yv) rectangle (\xv+0.08, \origy);
+    \draw[red!30, line width=0.5pt] (\xv, \yv) -- (\xv, \origy);
+}
+
+% Draw staircase
+\draw[quant signal]
+    (0.0, 1) -- (1.0, 1) -- (1.0, 3) -- (2.0, 3) -- (2.0, 5)
+    -- (3.0, 5) -- (3.0, 7) -- (4.0, 7) -- (4.0, 7) -- (5.0, 7)
+    -- (5.0, 6) -- (6.0, 6) -- (6.0, 4) -- (7.0, 4) -- (7.0, 2)
+    -- (8.0, 2) -- (8.0, 3) -- (9.0, 3) -- (9.0, 6) -- (10.0, 6)
+    -- (10.0, 5) -- (11.0, 5);
+
+% === SAMPLE DOTS ===
+% Original signal samples
+\foreach \xv/\yv in {
+    0.5/1.2,  1.5/3.1,  2.5/5.4,  3.5/6.8,
+    4.5/7.2,  5.5/5.9,  6.5/3.6,  7.5/2.1,
+    8.5/3.4,  9.5/5.6,  10.5/4.8
+}{
+    \node[dot orig] at (\xv, \yv) {};
+}
+
+% Quantized samples (snapped to grid)
+\foreach \xv/\yv in {
+    0.5/1, 1.5/3, 2.5/5, 3.5/7,
+    4.5/7, 5.5/6, 6.5/4, 7.5/2,
+    8.5/3, 9.5/6, 10.5/5
+}{
+    \node[dot quant] at (\xv, \yv) {};
+}
+
+% === LEGEND ===
+\node[anchor=north west, font=\small, inner sep=6pt,
+      fill=white, draw=black!20, rounded corners=3pt]
+    (legend) at (0.3, \ymax + 0.1) {
+    \begin{tabular}{@{}cl@{}}
+        \tikz\draw[orig signal] (0,0) -- (0.6,0); & Original  \\[2pt]
+        \tikz\draw[quant signal] (0,0) -- (0.6,0); & Kvantisering  \\[2pt]
+        \tikz\fill[red!15] (0,-0.1) rectangle (0.6,0.1); & Kvantiseringsfel \\
+    \end{tabular}
+};
+
+\end{tikzpicture}

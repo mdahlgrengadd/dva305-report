@@ -1,1 +1,40 @@
-Behovet av att optimera lagring och överföring av digitala bilder har lett till utvecklingen av en mängd olika algoritmer vilka generellt delas in i förlustfria och förstörande metoder. Förlustfritt format som PNG (Portable Network Graphics), bevarar bildens exakta pixeldata genom att utnyttja statistiska överflöd vilket är avgörande i sammanhang där ingen information får gå förlorad [4]. Å andra sidan använder de format såsom den klassiska JPG-standarden och det modernare AVIF tekniker för att ta bort visuell information som det mänskliga ögat har svårt att uppfatta, vilket möjliggör en dramatisk minskning av filstorleken[7]. AVIF (AV1 Image File Format) är särskilt relevant för denna studie eftersom det bygger på modern videokodningsteknik och erbjuder stöd för både högt bitdjup och extra kanaler såsom alfakanalen för transparens (RGBA), vilket är nödvändigt för att hantera de latenta representationernas fyra kanaler [3]. Utvecklingen av nyare format som JPEG XL (JXL) fortsätter att pressa gränserna för hur effektivt komplex bildinformation kan representeras utan att den upplevda kvaliteten försämras.
+%Behovet av att optimera lagring och överföring av digitala bilder har lett till utvecklingen av en mängd olika algoritmer vilka generellt delas in i förlustfria och förstörande metoder. Förlustfritt format som PNG (Portable Network Graphics), bevarar bildens exakta pixeldata genom att utnyttja statistiska överflöd vilket är avgörande i sammanhang där ingen information får gå förlorad [4]. Å andra sidan använder de format såsom den klassiska JPG-standarden och det modernare AVIF tekniker för att ta bort visuell information som det mänskliga ögat har svårt att uppfatta, vilket möjliggör en dramatisk minskning av filstorleken[7]. AVIF (AV1 Image File Format) är särskilt relevant för denna studie eftersom det bygger på modern videokodningsteknik och erbjuder stöd för både högt bitdjup och extra kanaler såsom alfakanalen för transparens (RGBA), vilket är nödvändigt för att hantera de latenta representationernas fyra kanaler [3]. Utvecklingen av nyare format som JPEG XL (JXL) fortsätter att pressa gränserna för hur effektivt komplex bildinformation kan representeras utan att den upplevda kvaliteten försämras.
+
+Det har dykt upp en massa nya bildformat på senare år, alla med samma mål: att göra bilder
+mindre utan att de blir fula. Det är extra viktigt på webben, där bilder måste laddas snabbt. Här är
+några av de viktigaste formaten: JPEG, WebP, AVIF och JPEG XL.
+
+\subsection*{JPEG}
+JPEG är en riktig gammal trotjänare som kom redan på 90-talet. Det funkar så att bilden delas
+upp i bitar och vissa detaljer som ögat ändå inte ser så bra slängs bort. På så sätt blir filen mycket
+mindre [1].
+
+Det bästa med JPEG är att det funkar i stort sett överallt. Alla program och enheter klarar det.
+Men det finns nackdelar också. Det går till exempel inte att ha genomskinliga delar i en
+JPEG-bild, och komprimerar man för mycket blir det fula fläckar och konstigheter i bilden [2].
+Därför ville man hitta på nåt bättre.
+
+\subsection*{WebP}
+WebP är Googles försök att göra ett bättre webbformat. De lanserade det 2010 och det bygger på
+teknik från deras videokodek VP8. WebP kan både komprimera med förlust (som JPEG) och
+utan förlust (som PNG). Det har också stöd för genomskinlighet och animation.
+Det smarta är att WebP ofta kan göra bilderna mindre än JPEG utan att det ser sämre ut. Därför
+passar det perfekt för webben, där man vill att sidor ska laddas snabbt [3].
+
+\subsection*{AVIF}
+AVIF är ett nyare format från gänget bakom videokodeken AV1. De har verkligen satsat på att få
+ner filstorlekarna så mycket som möjligt med hjälp av avancerad teknik. Och det har funkat!
+AVIF kan ofta göra bilder mycket mindre än både JPEG och WebP, samtidigt som kvaliteten är
+lika bra [3].
+Det fixar också häftiga grejer som HDR (högt dynamiskt omfång) och transparens. Men det är
+lite mer krävande för datorn att packa upp, så det kan gå lite segare på en del enheter.
+
+\subsection*{JPEG XL}
+JPEG XL är nästa steg från samma gäng som skapade original-JPEG. De ville göra ett format
+som är både supereffektivt och otroligt flexibelt. Det klarar allt från förlustfri komprimering (där
+ingen information försvinner) till högsta kvalitet på gigantiska bilder.
+En riktigt smart grej är att JPEG XL kan konvertera vanliga JPEG-bilder utan att kvaliteten
+försämras. Det betyder att man skulle kunna byta ut alla gamla bilder på en sajt till JPEG XL,
+och de skulle till och med kunna bli mindre än förut! [4] Det fixar också modern teknik som
+HDR och progressiv inladdning (att bilden visas stegvis medan den laddas). Många tror att JPEG
+XL är framtidens standard [4].

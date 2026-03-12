@@ -7,9 +7,7 @@
 
 Tidigare versioner av Stable Diffusion anges tränats på bland annat LAION-5B men som filtrerats mot vuxet innehåll \cite{stabilityai2022sd2}. Dock nämns filtrering endast av vuxeninnehåll och innebär inte att dessa tidigare modellers träningsdata var fri från upphovsrättsligt skyddat material eller etisk bias vid tidpunkt för träning. För SDXL anges inte träningsdatans ursprung, dock finns rapporter som visat att SDXL kan uppvisa stereotypa utseenden i genererade människoansikten, bland annat avseende kön och etnicitet. SDXL har också visat en tendens att under diffusionsprocessen framställa ansikten inom vissa grupper som överdrivet lika varandra \cite{aldahoul2025aigenerated}
 
-I våra experiment används dock enabart VAE-komponenten fristående från diffusionsprocessen och experimenten genomförs på ett öppet och etablerat bilddataset utan värdering av innehållet i bilderna. Däremot kan det finnas risk att bilder som förekommit oftare under träning leder till stabilare latent space och därför möjligtvis mindre risk för kollaps vid rekonstruktion. Detta är endast en hypotes och ingen vi testat under våra experiment.
-
-Sammantaget bedöms forskningsetiska riskerna som små.
+I våra experiment används dock enabart VAE-komponenten fristående från diffusionsprocessen och experimenten genomförs på ett öppet och etablerat bilddataset utan värdering av innehållet i bilderna. Däremot kan det finnas risk att bilder som förekommit oftare under träning leder till stabilare latent och därför möjligtvis mindre risk för kollaps vid rekonstruktion. Detta är högst osannolik hypotes och ingenting vi testat under våra experiment. Sammantaget bedöms forskningsetiska riskerna som små.
 
 
 %SDXL är tränat bland annat på LAION-5b som är ett omdiskuterat dataset innehållande upphovsrätsligt tveksamt matrial. Då vi inte använder oss av diffusionsprocessen och samtidigt begränsar oss till ett öppet och etablerat dataset i våra experiment finns inga risker att vi reproducerar skyddat eller stötande matrial.

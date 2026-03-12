@@ -1,0 +1,135 @@
+
+\begin{tikzpicture}[
+  >=Stealth,
+  % Main process boxes
+  box/.style={
+    rounded corners=5pt,
+    minimum width=30mm,
+    minimum height=16mm,
+    draw=#1!60!black,
+    line width=0.7pt,
+    fill=#1!12!white,
+    font=\sffamily\bfseries\small,
+    align=center,
+    inner sep=5pt,
+  },
+  % Data representation boxes (show tensor state)
+  databox/.style={
+    rounded corners=3pt,
+    minimum width=26mm,
+    minimum height=11mm,
+    draw=black!25,
+    line width=0.4pt,
+    fill=white,
+    font=\sffamily\scriptsize,
+    align=center,
+    inner sep=3pt,
+  },
+  % Arrows between stages
+  arr/.style={
+    -{Stealth[length=2.8mm, width=2mm]},
+    line width=0.7pt,
+    black!50,
+  },
+  % Annotation text
+  note/.style={
+    font=\sffamily\scriptsize,
+    text=black!55,
+    align=center,
+  },
+  % Example values
+  vals/.style={
+    font=\ttfamily\scriptsize,
+    text=black!70,
+    align=center,
+  },
+  % Stage label
+  stagelab/.style={
+    font=\sffamily\tiny\bfseries,
+    text=black!40,
+    anchor=south west,
+  },
+]
+
+% =============================================
+%  STAGE 1: Latent tensor (float32)
+% =============================================
+\node[box=orange] (latent) {Latent\\tensor};
+\node[databox, below=5mm of latent] (latent-info) {
+  \texttt{float32}\\[1pt]
+  $B \times C \times H \times W$
+};
+\node[vals, below=3mm of latent-info] (latent-vals) {
+  $-2.37,\; 0.84,\; 1.51, \ldots$
+};
+\node[stagelab] at (latent.north west) {\textcolor{orange!60!black}{1}};
+
+% =============================================
+%  STAGE 2: Min/Max beräkning
+% =============================================
+\node[box=yellow!80!orange, right=14mm of latent] (minmax) {Min/Max\\per kanal};
+\node[databox, below=5mm of minmax] (minmax-info) {
+  $x_{\min},\; x_{\max}$\\[1pt]
+  per kanal $c$
+};
+\node[stagelab] at (minmax.north west) {\textcolor{yellow!50!black}{2}};
+
+% =============================================
+%  STAGE 3: Kvantisering (affin mapping)
+% =============================================
+\node[box=green!70!black, right=14mm of minmax] (quant) {Kvantisering};
+\node[databox, below=5mm of quant] (quant-info) {
+  $q = \mathrm{round}\!\left(\frac{x - x_{\min}}{x_{\max} - x_{\min}} \cdot 255\right)$
+};
+\node[stagelab] at (quant.north west) {\textcolor{green!50!black}{3}};
+
+% =============================================
+%  STAGE 4: uint8 tensor
+% =============================================
+\node[box=blue, right=14mm of quant] (uint8) {\texttt{uint8}\\tensor};
+\node[databox, below=5mm of uint8] (uint8-info) {
+  \texttt{uint8}\\[1pt]
+  $B \times C \times H \times W$
+};
+\node[vals, below=3mm of uint8-info] (uint8-vals) {
+  $0,\; 104,\; 201, \ldots$
+};
+\node[stagelab] at (uint8.north west) {\textcolor{blue!60!black}{4}};
+
+% =============================================
+%  STAGE 5: Lagring (RGBA-bild / rå)
+% =============================================
+\node[box=violet, right=14mm of uint8] (store) {Packa \&\\lagra};
+\node[databox, below=5mm of store] (store-info) {
+  RGBA-bild\\[1pt]
+  eller rå \texttt{.bin}
+};
+\node[stagelab] at (store.north west) {\textcolor{violet!60!black}{5}};
+
+% =============================================
+%  ARROWS
+% =============================================
+\draw[arr] (latent)  -- (minmax);
+\draw[arr] (minmax)  -- (quant);
+\draw[arr] (quant)   -- (uint8);
+\draw[arr] (uint8)   -- (store);
+
+% =============================================
+%  TOP: Memory size comparison
+% =============================================
+\node[note, above=7mm of latent, text=orange!60!black]  (mem1) {$B\!\cdot\!C\!\cdot\!H\!\cdot\!W \times 4$ bytes};
+\node[note, above=7mm of uint8, text=blue!60!black]     (mem2) {$B\!\cdot\!C\!\cdot\!H\!\cdot\!W \times 1$ byte};
+
+% Compression ratio indicator
+\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, black!30, line width=0.5pt]
+    (mem1.east) -- (mem2.west)
+    node[midway, above=1pt, font=\sffamily\scriptsize\bfseries, text=black!50] {$4\times$ reduktion};
+
+% =============================================
+%  BOTTOM: Side-channel — min/max metadata
+% =============================================
+\draw[dashed, black!30, line width=0.5pt, -{Stealth[length=2mm]}]
+    (minmax-info.south) -- ++(0, -0.7) -| (store-info.south)
+    node[pos=0.25, below=1pt, note] {$x_{\min}, x_{\max}$ sparas som metadata};
+
+\end{tikzpicture}

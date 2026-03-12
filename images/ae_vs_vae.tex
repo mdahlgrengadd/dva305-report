@@ -1,0 +1,135 @@
+\begin{tikzpicture}[
+  >=Stealth,
+  encode arrow/.style={
+    -{Stealth[length=2.5mm, width=2mm]},
+    line width=1.2pt,
+    blue!70!black,
+  },
+  label text/.style={
+    font=\sffamily\bfseries\large,
+    anchor=north,
+  },
+  encode label/.style={
+    font=\sffamily\small\bfseries,
+    text=blue!70!black,
+    anchor=west,
+    inner sep=2pt,
+  },
+  thumbnail/.style={
+    inner sep=2pt,
+    draw=black!30,
+    line width=0.4pt,
+    fill=white,
+  },
+]
+
+% === CONFIGURATION ===
+\def\imgLeft{images/cat_day.png}
+\def\imgRight{images/cat_day.png}
+\def\imgSize{1.8cm}
+
+\def\sepx{8}
+
+% === SHARED ISOMETRIC PROJECTION PARAMETERS ===
+\pgfmathsetmacro{\cx}{\sepx}
+\pgfmathsetmacro{\cy}{1.4}
+\pgfmathsetmacro{\ax}{1.4}    % u-axis screen x component
+\pgfmathsetmacro{\ay}{-0.4}   % u-axis screen y component
+\pgfmathsetmacro{\bx}{1.4}    % v-axis screen x component
+\pgfmathsetmacro{\by}{0.4}    % v-axis screen y component
+\pgfmathsetmacro{\zs}{2.2}    % z (height) scale
+\pgfmathsetmacro{\sig}{0.32}  % Gaussian sigma
+
+% =========================================================
+%  LEFT SIDE — AUTOENCODER
+% =========================================================
+
+\node[thumbnail] (img-ae) at (0, 5.5)
+    {\includegraphics[width=\imgSize]{\imgLeft}};
+
+\draw[encode arrow] (0, 4.4) -- (0, 2.8);
+\node[encode label] at (0.15, 3.7) {Kod};
+
+% Flat latent plane (same isometric angle as VAE side)
+\fill[black!5, draw=black!50, line width=0.5pt]
+    ({0 - \ax - \bx}, {\cy - \ay - \by})
+    -- ({0 + \ax - \bx}, {\cy + \ay - \by})
+    -- ({0 + \ax + \bx}, {\cy + \ay + \by})
+    -- ({0 - \ax + \bx}, {\cy - \ay + \by})
+    -- cycle;
+
+% Single deterministic point
+\fill[blue!70!black] (0.15, 1.5) circle (3pt);
+
+\node[label text] at (0, -0.5) {Autoencoder};
+
+
+% =========================================================
+%  RIGHT SIDE — VARIATIONAL AUTOENCODER
+% =========================================================
+
+\node[thumbnail] (img-vae) at (\sepx, 5.5)
+    {\includegraphics[width=\imgSize]{\imgRight}};
+
+\draw[encode arrow] (\sepx, 4.4) -- (\sepx, 3.8);
+\node[encode label] at (\sepx+0.15, 4.2) {Kod};
+
+% --- Gaussian surface uses shared projection parameters ---
+
+% Base plane (drawn first, behind the surface)
+\fill[black!5, draw=black!50, line width=0.5pt]
+    ({\cx + (-1)*\ax + (-1)*\bx}, {\cy + (-1)*\ay + (-1)*\by})
+    -- ({\cx + (1)*\ax + (-1)*\bx}, {\cy + (1)*\ay + (-1)*\by})
+    -- ({\cx + (1)*\ax + (1)*\bx}, {\cy + (1)*\ay + (1)*\by})
+    -- ({\cx + (-1)*\ax + (1)*\bx}, {\cy + (-1)*\ay + (1)*\by})
+    -- cycle;
+
+% --- Draw Gaussian surface as filled strips (back to front) ---
+% We sweep v from -1 to 1 (back to front for correct occlusion)
+\foreach \vi in {-10,-9,...,9} {
+    \pgfmathsetmacro{\va}{\vi/10}
+    \pgfmathsetmacro{\vb}{(\vi+1)/10}
+    % Color: darker near base, lighter at peak region
+    \pgfmathsetmacro{\cblue}{min(95, 50 + 40*exp(-\va*\va/0.3))}
+    % Filled strip between row va and row vb
+    \fill[blue!\cblue!white, opacity=0.2]
+      plot[domain=-1:1, samples=25, smooth]
+        ({\cx + \x*\ax + \va*\bx},
+         {\cy + \x*\ay + \va*\by + \zs*exp(-(\x*\x + \va*\va)/(2*\sig*\sig))})
+      --
+      plot[domain=1:-1, samples=25, smooth]
+        ({\cx + \x*\ax + \vb*\bx},
+         {\cy + \x*\ay + \vb*\by + \zs*exp(-(\x*\x + \vb*\vb)/(2*\sig*\sig))})
+      -- cycle;
+}
+
+% Row mesh lines (constant v, sweep u) — back to front
+\foreach \vi in {-10,-8,...,10} {
+    \pgfmathsetmacro{\v}{\vi/10}
+    \pgfmathsetmacro{\cval}{min(90, 55 + 35*exp(-\v*\v/0.25))}
+    \draw[blue!\cval!black!70, line width=0.4pt]
+      plot[domain=-1:1, samples=35, smooth]
+        ({\cx + \x*\ax + \v*\bx},
+         {\cy + \x*\ay + \v*\by + \zs*exp(-(\x*\x + \v*\v)/(2*\sig*\sig))});
+}
+
+% Column mesh lines (constant u, sweep v)
+\foreach \ui in {-10,-8,...,10} {
+    \pgfmathsetmacro{\u}{\ui/10}
+    \draw[blue!60!purple, line width=0.3pt, opacity=0.6]
+      plot[domain=-1:1, samples=35, smooth]
+        ({\cx + \u*\ax + \x*\bx},
+         {\cy + \u*\ay + \x*\by + \zs*exp(-(\u*\u + \x*\x)/(2*\sig*\sig))});
+}
+
+% Gaussian formula
+\node[anchor=north, font=\small, text=black!60, align=center]
+    at (\sepx, -0.9) {%
+      %$q_\phi(\mathbf{z}\mid\mathbf{x})
+       %= \mathcal{N}\!\bigl(\boldsymbol{\mu},\,
+       %  \mathrm{diag}(\boldsymbol{\sigma}^2)\bigr)$%
+    };
+
+\node[label text] at (\sepx, -0.5) {Variational autoencoder};
+
+\end{tikzpicture}
