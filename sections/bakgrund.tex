@@ -11,7 +11,7 @@ Därefter förklarar vi autoencoders och variational autoencoders, följt av Sta
 exempelvis kvantisering. Slutligen ges en översikt över de mått som används för att
 utvärdera rekonstruktionernas kvalitet. Det vill säga hur bra bildresultatet står sig efter komprimering och uppackning.
 
-\subsection*{Traditionell bildkomprimering}
+\subsection*{Traditionella bildkomprimeringsmetoder}
 \input{sections/traditonell}
 
 \noindent
@@ -46,13 +46,13 @@ Genom att ett mellanliggande lager i nätverket har lägre dimension än källan
 
 
 En begränsning med vanliga autoencoders är att det latenta rummet saknar en kontinuerligt organiserad struktur. Närliggande punkter i det latenta rummet behöver inte motsvara semantiskt liknande data, vilket gör det svårt att använda representationen för generativa ändamål.
-Ett enkelt exempel är om man tränar en modell på bilder av katter och hundar. Om man försöker generera en bild från en punkt mitt emellan en katt och en hund i en vanlig autoencoder så kommer resultatet ofta bara bli suddig eller brus istället för en naturlig blandning av de två djuren. Det beror på att modellen inte har lärt sig att förstå innehållet i bilden, utan bara hur den ska kopiera pixlar. Som visas i figur \ref{fig:latent-space} krävs en mer avancerad modell som en VAE för att skapa ett  strukturerat system där man kan navigera mellan olika egenskaper såsom att göra en bild mer hundlik eller ändra ljuset från dag till natt.
+Ett enkelt exempel är om man tränar en modell på bilder av katter och hundar. Om man försöker generera en bild från en punkt mitt emellan en katt och en hund i en vanlig autoencoder så kommer resultatet ofta bara bli suddig eller brus istället för en naturlig blandning av de två djuren. Det beror på att modellen inte har lärt sig att förstå innehållet i bilden, utan bara hur den ska kopiera pixlar. Som visas i figur \ref{fig:latent-space} krävs en mer avancerad modell (se VAE nedan) för att skapa ett  strukturerat system där man kan navigera mellan olika egenskaper såsom att göra en bild mer hundlik eller ändra ljuset från dag till natt.
 
-En \textit{variational autoencoder} (VAE) löser detta genom att encodern inte omvandlar varje data till en enskild punkt i det latenta rummet, utan istället till en sannolikhetsfördelning~\cite{kingma2013autoencoding}. Encodern producerar två värden, dels ett medelvärde som anger fördelningens centrum, och dels en varians som anger hur utspridd fördelningen är kring detta centrum. Från denna fördelning ''samplas'' sedan den latenta vektorn för att användas i decodern på samma sätt som tidigare vilket visas i figur \ref{fig:autoencoder_vae}b.
+En \textit{variational autoencoder} (VAE) försöker lösa detta genom att encodern inte omvandlar varje data till en enskild punkt i det latenta rummet, utan istället till en sannolikhetsfördelning~\cite{kingma2013autoencoding}. Encodern producerar två värden, dels ett medelvärde som anger fördelningens centrum, och dels en varians som anger hur utspridd fördelningen är kring detta centrum. Från denna fördelning ''samplas'' sedan den latenta vektorn för att användas i decodern på samma sätt som tidigare vilket visas i figur \ref{fig:autoencoder_vae}b.
 
 %För att modellen ska kunna tränas med gradientbaserade metoder, trots att samplingen i sig inte är deriverbar, används det så kallade \textit{reparameteriseringstricket}. Istället för att sampla den latenta vektorn direkt från fördelningen, beräknas den genom att addera en slumpmässig störning, skalad med variansen, till medelvärdet. På detta sätt kan gradienter fortfarande beräknas genom hela nätverket~\cite{kingma2022autoencodingvariationalbayes}.
 
-Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att minimera skillnaden mellan källdata och rekonstruerad data, det vill säga att bevara så mycket information som möjligt. Det andra målet är att den inlärda latenta fördelningen ska ligga nära en fördefinierad referensfördelning. Avvikelsen mellan dessa fördelningar mäts och minimeras. Detta gör att det latenta rummet blir mer kontinuerligt och välordnat så att närliggande punkter i högre grad motsvarar semantiskt liknande innehåll~\cite{kingma2013autoencoding}. Som visas i exemplet i figur \ref{fig:latent-space} innebär en sådan struktur att man kan navigera längs olika axlar i det latenta rummet till exempel från kattlik till hundlik eller från dagsljus till natt.
+Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att minimera skillnaden mellan källdata och rekonstruerad data, det vill säga att bevara så mycket information som möjligt. Det andra målet är att den inlärda latenta fördelningen ska ligga nära en fördefinierad referensfördelning (ofta \textit{gaussisk}).  Detta gör att det latenta rummet blir mer kontinuerligt och välordnat så att närliggande punkter i högre grad motsvarar semantiskt liknande innehåll~\cite{kingma2013autoencoding}.  Figur \ref{fig:latent-space} visar att det därmed går att navigera längs olika axlar i det latenta rummet, till exempel från kattlik till hundlik eller från dagsljus till natt.
 
 
 \begin{figure}[htbp]
@@ -65,17 +65,15 @@ Vid träning optimeras VAE:n med två samtidiga mål. Det första målet är att
 
 \begin{figure}[htbp]
   \centering
-  \resizebox{0.7\textwidth}{!}{\input{images/latentspace_claude2.tex}}
+  \resizebox{0.75\textwidth}{!}{\input{images/latentspace_claude2.tex}}
   \caption{Kraftig förenkling av latent space \\(modifierat från https://mlberkeley.substack.com/p/vq-vae)}
   \label{fig:latent-space}
 \end{figure}
 
-
-
 %En konsekvens av detta är att rekonstruktionerna ibland blir något suddigare jämfört med en autoencoder, eftersom modellen måste balansera  en korrekt rekonstruktion mot ett strukturerat/kontinuerligt latent rum. Dock är detta  just den egenskap som VAE särskilt lämpar sig för i  generativa modeller där man vill kunna bearbeta data i ett kompakt och välorganiserat utrymme.
 
 \subsection*{Stable Diffusion XL (SDXL) och dess VAE}
-SDXL är en latent diffusionsmodell (LDM) utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från tidigare generationers diffusionsmodeller som arbetade direkt med pixelvärden utför SDXL hela diffusionsprocessen i det latenta rummet, vilket avsevärt minskar antalet beräkningar som behövs \cite{rombach2022highresolution, podell2024sdxl, ricker2024aeroblade}. Denna metod kallas för Perceptual Compression där man separerar den högfrekventa visuella informationen från det semantiska innehållet. Genom att fokusera beräkningarna till det semantiska planet kan modellen hantera komplexa detaljer utan att kräva den extrema mängd grafikminne som pixelbaserad diffusion efterfrågar [9].
+SDXL är en latent diffusionsmodell (LDM) utvecklad för att generera högupplösta bilder~\cite{podell2024sdxl}. Till skillnad från tidigare generationers diffusionsmodeller som arbetade direkt med pixelvärden utför SDXL hela diffusionsprocessen i det latenta rummet, vilket avsevärt minskar antalet beräkningar som behövs \cite{rombach2022highresolution, podell2024sdxl, ricker2024aeroblade}. Denna metod kallas för Perceptual Compression där man alltså separerar den högfrekventa visuella informationen från det semantiska innehållet. Genom att fokusera beräkningarna till det semantiska planet kan modellen hantera komplexa detaljer utan att kräva den extrema mängd grafikminne som pixelbaserad diffusion efterfrågar [9].
 
 %Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen Bredd($B$)\texttimes Höjd($H$)\texttimes Färg($RGB$) och komprimerar den till en representation med dimensionen $(B\div8) \texttimes (H\div8) \texttimes 4$, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från tre (RGB) till fyra $(Z_0,\dots,Z_3)$. Dessa fyra kanaler representerar dock inte längre enbart färger, utan kallas 'features' ~\cite{podell2024sdxl}.
 
