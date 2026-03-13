@@ -43,19 +43,17 @@ Samtliga metoder sammanfattas i tabell~\ref{tab:strategier}.
 \hline
 NPZ (baseline)              & NumPy \texttt{savez\_compressed} (lossless) \\
 JXL LL    & JPEG XL (lossless) \\
-JXL $d=0{,}05$   & JPEG XL lossy, distans $0{.}05$ \\
-JXL $d=0{,}1$    & JPEG XL lossy, distans $0{.}1$ \\
-JXL $d=0{,}5$    & JPEG XL lossy, distans $0{.}5$ \\
-JXL $d=1{,}0$    & JPEG XL lossy, distans $1{.}0$ \\
+JXL $d=0{.}05$   & JPEG XL lossy, distans $0{.}05$ \\
+JXL $d=0{.}1$    & JPEG XL lossy, distans $0{.}1$ \\
+JXL $d=0{.}5$    & JPEG XL lossy, distans $0{.}5$ \\
+JXL $d=1{.}0$    & JPEG XL lossy, distans $1{.}0$ \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection*{Experimentets uppsättning}
 Varje bild behandlades enligt en identisk uppsättning steg för alla sex metoder enligt figur \ref{fig:placeholder}.
-Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE
-(\texttt{madebyollin/sdxl-vae-fp16-fix}) till en latent
-med dimensionen $4 \times (H/8) \times (W/8)$ i 32-bitars flyttalsformat. $H$ och $W$ är originalbildens höjd respektive bredd i pixlar.
+Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE\footnote{\texttt{Vi använde stabilityai/stable-diffusion-xl-base-1.0}} till en latent med dimensionen $4 \times (H/8) \times (W/8)$ i 32-bitars flyttalsformat. $H$ och $W$ är originalbildens höjd respektive bredd i pixlar.
 Denna latent kvantiserades sedan till 8-bitars heltal. Värden utanför
 intervallet $[-4{.}0,\; 4{.}0]$ klipptes till gränserna.
 Detta gav 256 diskreta nivåer.

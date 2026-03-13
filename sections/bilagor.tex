@@ -10,37 +10,205 @@
 \caption{PSNR\,(dB) per bild för de sex komprimeringsmetoderna.}
 \label{tab:psnr_per_image}
 {\footnotesize
-\begin{tabular}{lrrrrrr}
+\begin{tabular}{lrrrrrrrrr}
 \hline
-\textbf{Bild} & \textbf{NPZ} & \textbf{JXL-LL} & \boldmath$d_{05}$ & \boldmath$d_1$ & \boldmath$d_5$ & \boldmath$d_{10}$ \\
+\textbf{Bild} & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \boldmath$d_{05}$@8 & \boldmath$d_1$@8 & \boldmath$d_5$@8 & \boldmath$d_{10}$@8 & \textbf{PNG} & \textbf{FP32} & \textbf{FP16} \\
 \hline
- 1  & 24{,}13 & 24{,}13 & 23{,}53 & 22{,}80 & 19{,}10 & 17{,}69 \\
- 2  & 29{,}89 & 29{,}89 & 29{,}39 & 28{,}86 & 24{,}74 & 22{,}26 \\
- 3  & 31{,}60 & 31{,}60 & 30{,}84 & 30{,}12 & 25{,}25 & 22{,}89 \\
- 4  & 29{,}48 & 29{,}48 & 28{,}74 & 28{,}12 & 23{,}51 & 21{,}52 \\
- 5  & 23{,}07 & 23{,}07 & 22{,}55 & 21{,}84 & 17{,}58 & 15{,}77 \\
- 6  & 24{,}73 & 24{,}73 & 24{,}25 & 23{,}65 & 20{,}89 & 19{,}52 \\
- 7  & 30{,}29 & 30{,}29 & 29{,}41 & 28{,}46 & 22{,}55 & 20{,}35 \\
- 8  & 22{,}64 & 22{,}64 & 21{,}85 & 20{,}72 & 16{,}41 & 14{,}96 \\
- 9  & 30{,}12 & 30{,}12 & 29{,}35 & 28{,}59 & 23{,}56 & 21{,}47 \\
-10  & 30{,}31 & 30{,}31 & 29{,}43 & 28{,}38 & 23{,}12 & 21{,}06 \\
-11  & 26{,}19 & 26{,}19 & 25{,}67 & 25{,}08 & 21{,}52 & 20{,}05 \\
-12  & 30{,}81 & 30{,}81 & 30{,}17 & 29{,}42 & 24{,}79 & 22{,}61 \\
-13  & 19{,}82 & 19{,}82 & 19{,}55 & 19{,}26 & 17{,}69 & 16{,}84 \\
-14  & 25{,}11 & 25{,}11 & 24{,}58 & 24{,}08 & 20{,}19 & 18{,}59 \\
-15  & 29{,}13 & 29{,}13 & 28{,}50 & 27{,}88 & 23{,}72 & 21{,}64 \\
-16  & 28{,}26 & 28{,}26 & 27{,}71 & 27{,}21 & 24{,}30 & 22{,}53 \\
-17  & 28{,}36 & 28{,}36 & 27{,}87 & 27{,}19 & 23{,}40 & 21{,}52 \\
-18  & 23{,}75 & 23{,}75 & 23{,}38 & 22{,}95 & 20{,}26 & 18{,}94 \\
-19  & 27{,}82 & 27{,}82 & 27{,}07 & 26{,}24 & 21{,}03 & 19{,}44 \\
-20  & 28{,}72 & 28{,}72 & 28{,}26 & 27{,}73 & 24{,}34 & 22{,}54 \\
-21  & 24{,}76 & 24{,}76 & 24{,}32 & 23{,}81 & 20{,}99 & 19{,}75 \\
-22  & 27{,}06 & 27{,}06 & 26{,}62 & 26{,}06 & 22{,}29 & 20{,}23 \\
-23  & 30{,}97 & 30{,}97 & 30{,}09 & 29{,}30 & 24{,}37 & 21{,}82 \\
-24  & 23{,}22 & 23{,}22 & 22{,}82 & 22{,}16 & 19{,}51 & 18{,}30 \\
+ 1 & 24{,}1264 & 24{,}1264 & 18{,}0485 & 17{,}4204 & 16{,}6982 & 16{,}2680 & $\infty$ & 24{,}2342 & 24{,}2342 \\
+ 2 & 29{,}8711 & 29{,}8711 & 22{,}9315 & 21{,}6818 & 20{,}8204 & 20{,}4553 & $\infty$ & 29{,}9575 & 29{,}9572 \\
+ 3 & 31{,}5696 & 31{,}5696 & 23{,}3446 & 22{,}0692 & 19{,}8748 & 19{,}6913 & $\infty$ & 31{,}7105 & 31{,}7106 \\
+ 4 & 29{,}4847 & 29{,}4847 & 22{,}0977 & 21{,}3662 & 19{,}8767 & 19{,}2778 & $\infty$ & 29{,}5998 & 29{,}5992 \\
+ 5 & 23{,}0769 & 23{,}0769 & 16{,}2793 & 15{,}3901 & 14{,}6523 & 14{,}5306 & $\infty$ & 23{,}1266 & 23{,}1266 \\
+ 6 & 24{,}7306 & 24{,}7306 & 19{,}8539 & 19{,}1358 & 18{,}5723 & 18{,}4076 & $\infty$ & 24{,}8028 & 24{,}8026 \\
+ 7 & 30{,}2954 & 30{,}2954 & 20{,}9305 & 19{,}7123 & 18{,}4037 & 18{,}3592 & $\infty$ & 30{,}4089 & 30{,}4087 \\
+ 8 & 22{,}6478 & 22{,}6478 & 15{,}2003 & 14{,}7904 & 13{,}7911 & 13{,}6798 & $\infty$ & 22{,}7553 & 22{,}7561 \\
+ 9 & 30{,}1378 & 30{,}1378 & 22{,}1553 & 21{,}0977 & 19{,}4278 & 19{,}1022 & $\infty$ & 30{,}2479 & 30{,}2476 \\
+10 & 30{,}3318 & 30{,}3318 & 21{,}4962 & 20{,}5486 & 19{,}1298 & 19{,}0437 & $\infty$ & 30{,}4389 & 30{,}4381 \\
+11 & 26{,}1879 & 26{,}1879 & 20{,}3325 & 19{,}7569 & 18{,}2974 & 17{,}9197 & $\infty$ & 26{,}2634 & 26{,}2629 \\
+12 & 30{,}8435 & 30{,}8435 & 23{,}2305 & 22{,}0022 & 20{,}4575 & 19{,}6988 & $\infty$ & 31{,}0164 & 31{,}0160 \\
+13 & 19{,}8218 & 19{,}8218 & 16{,}9803 & 16{,}6224 & 15{,}3798 & 15{,}3394 & $\infty$ & 19{,}8628 & 19{,}8625 \\
+14 & 25{,}1165 & 25{,}1165 & 18{,}9880 & 18{,}3423 & 17{,}6375 & 17{,}2149 & $\infty$ & 25{,}1972 & 25{,}1973 \\
+15 & 29{,}1349 & 29{,}1349 & 22{,}3455 & 20{,}9955 & 18{,}3790 & 17{,}5165 & $\infty$ & 29{,}2368 & 29{,}2353 \\
+16 & 28{,}2639 & 28{,}2639 & 23{,}1630 & 22{,}0307 & 21{,}0670 & 21{,}0704 & $\infty$ & 28{,}3899 & 28{,}3896 \\
+17 & 28{,}3513 & 28{,}3513 & 21{,}9677 & 20{,}9805 & 19{,}7683 & 19{,}2909 & $\infty$ & 28{,}4260 & 28{,}4257 \\
+18 & 23{,}7522 & 23{,}7522 & 19{,}1263 & 18{,}6540 & 17{,}9642 & 18{,}1044 & $\infty$ & 23{,}8093 & 23{,}8091 \\
+19 & 27{,}8251 & 27{,}8251 & 19{,}8193 & 19{,}0774 & 17{,}8184 & 17{,}6576 & $\infty$ & 27{,}9459 & 27{,}9453 \\
+20 & 28{,}7425 & 28{,}7425 & 22{,}7363 & 22{,}1004 & 19{,}2973 & 18{,}6138 & $\infty$ & 28{,}8046 & 28{,}8045 \\
+21 & 24{,}7659 & 24{,}7659 & 20{,}0418 & 19{,}4360 & 17{,}8289 & 17{,}5290 & $\infty$ & 24{,}8663 & 24{,}8665 \\
+22 & 27{,}0657 & 27{,}0657 & 20{,}9182 & 20{,}0118 & 19{,}5345 & 19{,}4722 & $\infty$ & 27{,}1425 & 27{,}1427 \\
+23 & 30{,}9567 & 30{,}9567 & 22{,}5853 & 21{,}6210 & 19{,}2954 & 18{,}9142 & $\infty$ & 31{,}0142 & 31{,}0138 \\
+24 & 23{,}2222 & 23{,}2222 & 18{,}5222 & 17{,}9142 & 16{,}7085 & 16{,}6607 & $\infty$ & 23{,}2913 & 23{,}2915 \\
 \hline
-\textit{Medel} & \textit{27{,}09} & \textit{27{,}09} & \textit{26{,}50} & \textit{25{,}83} & \textit{21{,}88} & \textit{20{,}10} \\
+\textit{Medel} & \textit{27{,}0968} & \textit{27{,}0968} & \textit{20{,}5456} & \textit{19{,}6982} & \textit{18{,}3617} & \textit{18{,}0758} & \textit{$\infty$} & \textit{27{,}1895} & \textit{27{,}1893} \\
 \hline
 \end{tabular}
 }
 \end{table}
+
+
+
+\begin{table}[H]
+\centering
+\caption{SSIM per bild för de sex komprimeringsmetoderna.}
+\label{tab:ssim_per_image}
+{\footnotesize
+\begin{tabular}{lrrrrrrrrr}
+\hline
+\textbf{Bild} & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \boldmath$d_{05}$@8 & \boldmath$d_1$@8 & \boldmath$d_5$@8 & \boldmath$d_{10}$@8 & \textbf{PNG} & \textbf{FP32} & \textbf{FP16} \\
+\hline
+ 1 & 0{,}8122 & 0{,}8122 & 0{,}4378 & 0{,}3908 & 0{,}2695 & 0{,}2490 & 1{,}0000 & 0{,}8170 & 0{,}8170 \\
+ 2 & 0{,}8644 & 0{,}8644 & 0{,}5384 & 0{,}4688 & 0{,}4826 & 0{,}4918 & 1{,}0000 & 0{,}8675 & 0{,}8675 \\
+ 3 & 0{,}9311 & 0{,}9311 & 0{,}6552 & 0{,}5875 & 0{,}5675 & 0{,}5633 & 1{,}0000 & 0{,}9340 & 0{,}9340 \\
+ 4 & 0{,}8711 & 0{,}8711 & 0{,}5725 & 0{,}5268 & 0{,}4913 & 0{,}4881 & 1{,}0000 & 0{,}8744 & 0{,}8744 \\
+ 5 & 0{,}8351 & 0{,}8351 & 0{,}4073 & 0{,}3340 & 0{,}1941 & 0{,}1887 & 1{,}0000 & 0{,}8375 & 0{,}8375 \\
+ 6 & 0{,}8133 & 0{,}8133 & 0{,}4910 & 0{,}4445 & 0{,}4244 & 0{,}4308 & 1{,}0000 & 0{,}8175 & 0{,}8175 \\
+ 7 & 0{,}9527 & 0{,}9527 & 0{,}6399 & 0{,}5690 & 0{,}4415 & 0{,}4342 & 1{,}0000 & 0{,}9545 & 0{,}9545 \\
+ 8 & 0{,}8796 & 0{,}8796 & 0{,}4682 & 0{,}4055 & 0{,}2248 & 0{,}2233 & 1{,}0000 & 0{,}8834 & 0{,}8834 \\
+ 9 & 0{,}9319 & 0{,}9319 & 0{,}6920 & 0{,}6201 & 0{,}5735 & 0{,}5707 & 1{,}0000 & 0{,}9340 & 0{,}9340 \\
+10 & 0{,}9387 & 0{,}9387 & 0{,}5919 & 0{,}5222 & 0{,}4817 & 0{,}4993 & 1{,}0000 & 0{,}9413 & 0{,}9413 \\
+11 & 0{,}8546 & 0{,}8546 & 0{,}5329 & 0{,}4821 & 0{,}3973 & 0{,}3911 & 1{,}0000 & 0{,}8584 & 0{,}8584 \\
+12 & 0{,}9030 & 0{,}9030 & 0{,}6251 & 0{,}5761 & 0{,}5918 & 0{,}5856 & 1{,}0000 & 0{,}9071 & 0{,}9071 \\
+13 & 0{,}6794 & 0{,}6794 & 0{,}3681 & 0{,}3282 & 0{,}2223 & 0{,}2215 & 1{,}0000 & 0{,}6838 & 0{,}6838 \\
+14 & 0{,}8255 & 0{,}8255 & 0{,}4613 & 0{,}4058 & 0{,}3159 & 0{,}3077 & 1{,}0000 & 0{,}8297 & 0{,}8297 \\
+15 & 0{,}9001 & 0{,}9001 & 0{,}6589 & 0{,}5960 & 0{,}5548 & 0{,}5409 & 1{,}0000 & 0{,}9029 & 0{,}9029 \\
+16 & 0{,}8621 & 0{,}8621 & 0{,}5871 & 0{,}5169 & 0{,}5037 & 0{,}5124 & 1{,}0000 & 0{,}8674 & 0{,}8674 \\
+17 & 0{,}9156 & 0{,}9156 & 0{,}6228 & 0{,}5521 & 0{,}4675 & 0{,}4612 & 1{,}0000 & 0{,}9179 & 0{,}9179 \\
+18 & 0{,}7959 & 0{,}7959 & 0{,}4376 & 0{,}3871 & 0{,}3313 & 0{,}3449 & 1{,}0000 & 0{,}7986 & 0{,}7985 \\
+19 & 0{,}8735 & 0{,}8735 & 0{,}5681 & 0{,}5142 & 0{,}4596 & 0{,}4710 & 1{,}0000 & 0{,}8773 & 0{,}8773 \\
+20 & 0{,}9149 & 0{,}9149 & 0{,}7554 & 0{,}7307 & 0{,}6552 & 0{,}6454 & 1{,}0000 & 0{,}9167 & 0{,}9166 \\
+21 & 0{,}8716 & 0{,}8716 & 0{,}6119 & 0{,}5614 & 0{,}4787 & 0{,}4847 & 1{,}0000 & 0{,}8747 & 0{,}8747 \\
+22 & 0{,}8146 & 0{,}8146 & 0{,}4793 & 0{,}4234 & 0{,}4077 & 0{,}4090 & 1{,}0000 & 0{,}8180 & 0{,}8180 \\
+23 & 0{,}9437 & 0{,}9437 & 0{,}6766 & 0{,}6285 & 0{,}5798 & 0{,}5771 & 1{,}0000 & 0{,}9456 & 0{,}9456 \\
+24 & 0{,}8509 & 0{,}8509 & 0{,}4589 & 0{,}4034 & 0{,}3188 & 0{,}3227 & 1{,}0000 & 0{,}8533 & 0{,}8533 \\
+\hline
+\textit{Medel} & \textit{0{,}8682} & \textit{0{,}8682} & \textit{0{,}5558} & \textit{0{,}4990} & \textit{0{,}4348} & \textit{0{,}4339} & \textit{1{,}0000} & \textit{0{,}8713} & \textit{0{,}8713} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{BPP per bild för de sex komprimeringsmetoderna.}
+\label{tab:bpp_per_image}
+{\footnotesize
+\begin{tabular}{lrrrrrrrrr}
+\hline
+\textbf{Bild} & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \boldmath$d_{05}$@8 & \boldmath$d_1$@8 & \boldmath$d_5$@8 & \boldmath$d_{10}$@8 & \textbf{PNG} & \textbf{FP32} & \textbf{FP16} \\
+\hline
+ 1 & 0{,}4156 & 0{,}4148 & 0{,}1965 & 0{,}1708 & 0{,}1137 & 0{,}1103 & 14{,}9842 & 2{,}0000 & 1{,}0000 \\
+ 2 & 0{,}4134 & 0{,}4066 & 0{,}1954 & 0{,}1600 & 0{,}1101 & 0{,}1083 & 12{,}5731 & 2{,}0000 & 1{,}0000 \\
+ 3 & 0{,}4175 & 0{,}4018 & 0{,}1904 & 0{,}1555 & 0{,}1073 & 0{,}1057 & 10{,}2313 & 2{,}0000 & 1{,}0000 \\
+ 4 & 0{,}4094 & 0{,}4076 & 0{,}1911 & 0{,}1650 & 0{,}1099 & 0{,}1069 & 12{,}9686 & 2{,}0000 & 1{,}0000 \\
+ 5 & 0{,}4281 & 0{,}4427 & 0{,}2138 & 0{,}1880 & 0{,}1193 & 0{,}1151 & 15{,}9833 & 2{,}0000 & 1{,}0000 \\
+ 6 & 0{,}4158 & 0{,}4073 & 0{,}1868 & 0{,}1556 & 0{,}1083 & 0{,}1062 & 12{,}5928 & 2{,}0000 & 1{,}0000 \\
+ 7 & 0{,}4149 & 0{,}4176 & 0{,}1984 & 0{,}1697 & 0{,}1105 & 0{,}1074 & 11{,}5219 & 2{,}0000 & 1{,}0000 \\
+ 8 & 0{,}4305 & 0{,}4321 & 0{,}2089 & 0{,}1821 & 0{,}1165 & 0{,}1134 & 16{,}0415 & 2{,}0000 & 1{,}0000 \\
+ 9 & 0{,}4052 & 0{,}3984 & 0{,}1890 & 0{,}1578 & 0{,}1078 & 0{,}1056 & 11{,}8591 & 2{,}0000 & 1{,}0000 \\
+10 & 0{,}4117 & 0{,}4095 & 0{,}1936 & 0{,}1669 & 0{,}1094 & 0{,}1069 & 12{,}0740 & 2{,}0000 & 1{,}0000 \\
+11 & 0{,}4144 & 0{,}4123 & 0{,}1918 & 0{,}1672 & 0{,}1106 & 0{,}1082 & 12{,}6347 & 2{,}0000 & 1{,}0000 \\
+12 & 0{,}4092 & 0{,}4022 & 0{,}1832 & 0{,}1545 & 0{,}1056 & 0{,}1036 & 10{,}8037 & 2{,}0000 & 1{,}0000 \\
+13 & 0{,}4125 & 0{,}4189 & 0{,}1908 & 0{,}1637 & 0{,}1066 & 0{,}1046 & 16{,}7381 & 2{,}0000 & 1{,}0000 \\
+14 & 0{,}4205 & 0{,}4238 & 0{,}1973 & 0{,}1725 & 0{,}1144 & 0{,}1096 & 14{,}0829 & 2{,}0000 & 1{,}0000 \\
+15 & 0{,}4363 & 0{,}4092 & 0{,}1955 & 0{,}1708 & 0{,}1120 & 0{,}1089 & 12{,}4630 & 2{,}0000 & 1{,}0000 \\
+16 & 0{,}4010 & 0{,}4005 & 0{,}1781 & 0{,}1488 & 0{,}1036 & 0{,}1018 & 10{,}8693 & 2{,}0000 & 1{,}0000 \\
+17 & 0{,}4193 & 0{,}4162 & 0{,}1917 & 0{,}1651 & 0{,}1079 & 0{,}1058 & 12{,}2493 & 2{,}0000 & 1{,}0000 \\
+18 & 0{,}4196 & 0{,}4220 & 0{,}1979 & 0{,}1709 & 0{,}1112 & 0{,}1083 & 15{,}8884 & 2{,}0000 & 1{,}0000 \\
+19 & 0{,}4119 & 0{,}4075 & 0{,}1923 & 0{,}1650 & 0{,}1117 & 0{,}1094 & 13{,}6612 & 2{,}0000 & 1{,}0000 \\
+20 & 0{,}4222 & 0{,}3925 & 0{,}1899 & 0{,}1672 & 0{,}1058 & 0{,}1037 & 10{,}0192 & 2{,}0000 & 1{,}0000 \\
+21 & 0{,}4088 & 0{,}4053 & 0{,}1836 & 0{,}1588 & 0{,}1068 & 0{,}1045 & 12{,}9608 & 2{,}0000 & 1{,}0000 \\
+22 & 0{,}4127 & 0{,}4106 & 0{,}1934 & 0{,}1661 & 0{,}1098 & 0{,}1076 & 14{,}2816 & 2{,}0000 & 1{,}0000 \\
+23 & 0{,}4300 & 0{,}4006 & 0{,}1886 & 0{,}1628 & 0{,}1087 & 0{,}1060 & 11{,}3443 & 2{,}0000 & 1{,}0000 \\
+24 & 0{,}4205 & 0{,}4215 & 0{,}1981 & 0{,}1731 & 0{,}1140 & 0{,}1107 & 14{,}3717 & 2{,}0000 & 1{,}0000 \\
+\hline
+\textit{Medel} & \textit{0{,}4167} & \textit{0{,}4117} & \textit{0{,}1932} & \textit{0{,}1657} & \textit{0{,}1101} & \textit{0{,}1074} & \textit{13{,}0499} & \textit{2{,}0000} & \textit{1{,}0000} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Filstorlek\,(kB) per bild för de sex komprimeringsmetoderna.}
+\label{tab:filstorlek_per_image}
+{\footnotesize
+\begin{tabular}{lrrrrrrrrr}
+\hline
+\textbf{Bild} & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \boldmath$d_{05}$@8 & \boldmath$d_1$@8 & \boldmath$d_5$@8 & \boldmath$d_{10}$@8 & \textbf{PNG} & \textbf{FP32} & \textbf{FP16} \\
+\hline
+ 1 & 19{,}95 & 19{,}91 & 9{,}43 & 8{,}20 & 5{,}46 & 5{,}29 & 719{,}24 & 96{,}00 & 48{,}00 \\
+ 2 & 19{,}84 & 19{,}52 & 9{,}38 & 7{,}68 & 5{,}29 & 5{,}20 & 603{,}51 & 96{,}00 & 48{,}00 \\
+ 3 & 20{,}04 & 19{,}29 & 9{,}14 & 7{,}46 & 5{,}15 & 5{,}07 & 491{,}10 & 96{,}00 & 48{,}00 \\
+ 4 & 19{,}65 & 19{,}57 & 9{,}17 & 7{,}92 & 5{,}27 & 5{,}13 & 622{,}49 & 96{,}00 & 48{,}00 \\
+ 5 & 20{,}55 & 21{,}25 & 10{,}26 & 9{,}02 & 5{,}72 & 5{,}52 & 767{,}20 & 96{,}00 & 48{,}00 \\
+ 6 & 19{,}96 & 19{,}55 & 8{,}97 & 7{,}47 & 5{,}20 & 5{,}10 & 604{,}45 & 96{,}00 & 48{,}00 \\
+ 7 & 19{,}92 & 20{,}04 & 9{,}52 & 8{,}15 & 5{,}30 & 5{,}16 & 553{,}05 & 96{,}00 & 48{,}00 \\
+ 8 & 20{,}66 & 20{,}74 & 10{,}03 & 8{,}74 & 5{,}59 & 5{,}44 & 769{,}99 & 96{,}00 & 48{,}00 \\
+ 9 & 19{,}45 & 19{,}12 & 9{,}07 & 7{,}58 & 5{,}18 & 5{,}07 & 569{,}24 & 96{,}00 & 48{,}00 \\
+10 & 19{,}76 & 19{,}66 & 9{,}29 & 8{,}01 & 5{,}25 & 5{,}13 & 579{,}55 & 96{,}00 & 48{,}00 \\
+11 & 19{,}89 & 19{,}79 & 9{,}21 & 8{,}02 & 5{,}31 & 5{,}20 & 606{,}47 & 96{,}00 & 48{,}00 \\
+12 & 19{,}64 & 19{,}30 & 8{,}79 & 7{,}41 & 5{,}07 & 4{,}97 & 518{,}58 & 96{,}00 & 48{,}00 \\
+13 & 19{,}80 & 20{,}11 & 9{,}16 & 7{,}86 & 5{,}12 & 5{,}02 & 803{,}43 & 96{,}00 & 48{,}00 \\
+14 & 20{,}18 & 20{,}34 & 9{,}47 & 8{,}28 & 5{,}49 & 5{,}26 & 675{,}98 & 96{,}00 & 48{,}00 \\
+15 & 20{,}94 & 19{,}64 & 9{,}38 & 8{,}20 & 5{,}38 & 5{,}23 & 598{,}22 & 96{,}00 & 48{,}00 \\
+16 & 19{,}25 & 19{,}22 & 8{,}55 & 7{,}14 & 4{,}97 & 4{,}89 & 521{,}73 & 96{,}00 & 48{,}00 \\
+17 & 20{,}13 & 19{,}98 & 9{,}20 & 7{,}92 & 5{,}18 & 5{,}08 & 587{,}97 & 96{,}00 & 48{,}00 \\
+18 & 20{,}14 & 20{,}26 & 9{,}50 & 8{,}21 & 5{,}34 & 5{,}20 & 762{,}64 & 96{,}00 & 48{,}00 \\
+19 & 19{,}77 & 19{,}56 & 9{,}23 & 7{,}92 & 5{,}36 & 5{,}25 & 655{,}74 & 96{,}00 & 48{,}00 \\
+20 & 20{,}26 & 18{,}84 & 9{,}11 & 8{,}02 & 5{,}08 & 4{,}98 & 480{,}92 & 96{,}00 & 48{,}00 \\
+21 & 19{,}62 & 19{,}45 & 8{,}81 & 7{,}62 & 5{,}13 & 5{,}02 & 622{,}12 & 96{,}00 & 48{,}00 \\
+22 & 19{,}81 & 19{,}71 & 9{,}28 & 7{,}97 & 5{,}27 & 5{,}17 & 685{,}52 & 96{,}00 & 48{,}00 \\
+23 & 20{,}64 & 19{,}23 & 9{,}05 & 7{,}81 & 5{,}22 & 5{,}09 & 544{,}53 & 96{,}00 & 48{,}00 \\
+24 & 20{,}19 & 20{,}23 & 9{,}51 & 8{,}31 & 5{,}47 & 5{,}32 & 689{,}84 & 96{,}00 & 48{,}00 \\
+\hline
+\textit{Medel} & \textit{20{,}00} & \textit{19{,}76} & \textit{9{,}27} & \textit{7{,}96} & \textit{5{,}28} & \textit{5{,}16} & \textit{626{,}40} & \textit{96{,}00} & \textit{48{,}00} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+{\setlength{\tabcolsep}{1pt}
+\begin{tabular}{@{}r@{\hspace{3pt}}cccccccc@{}}
+\toprule
+ & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \textbf{d0.5@8} & \textbf{d1@8} & \textbf{d5@8} & \textbf{d10@8} & \textbf{FP32} & \textbf{FP16} \\
+\midrule
+{\footnotesize 01} & \includegraphics[width=1.6cm]{thumbs/01_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/01_FP16_sq.png} \\
+{\footnotesize 02} & \includegraphics[width=1.6cm]{thumbs/02_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/02_FP16_sq.png} \\
+{\footnotesize 03} & \includegraphics[width=1.6cm]{thumbs/03_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/03_FP16_sq.png} \\
+{\footnotesize 04} & \includegraphics[width=1.6cm]{thumbs/04_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/04_FP16_sq.png} \\
+{\footnotesize 05} & \includegraphics[width=1.6cm]{thumbs/05_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/05_FP16_sq.png} \\
+{\footnotesize 06} & \includegraphics[width=1.6cm]{thumbs/06_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/06_FP16_sq.png} \\
+{\footnotesize 07} & \includegraphics[width=1.6cm]{thumbs/07_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/07_FP16_sq.png} \\
+{\footnotesize 08} & \includegraphics[width=1.6cm]{thumbs/08_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/08_FP16_sq.png} \\
+{\footnotesize 09} & \includegraphics[width=1.6cm]{thumbs/09_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/09_FP16_sq.png} \\
+{\footnotesize 10} & \includegraphics[width=1.6cm]{thumbs/10_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/10_FP16_sq.png} \\
+{\footnotesize 11} & \includegraphics[width=1.6cm]{thumbs/11_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/11_FP16_sq.png} \\
+{\footnotesize 12} & \includegraphics[width=1.6cm]{thumbs/12_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/12_FP16_sq.png} \\
+\bottomrule
+\end{tabular}}
+
+{\setlength{\tabcolsep}{1pt}
+\begin{tabular}{@{}r@{\hspace{3pt}}cccccccc@{}}
+\toprule
+ & \textbf{NPZ@8} & \textbf{JXL-LL@8} & \textbf{d0.5@8} & \textbf{d1@8} & \textbf{d5@8} & \textbf{d10@8} & \textbf{FP32} & \textbf{FP16} \\
+\midrule
+{\footnotesize 13} & \includegraphics[width=1.6cm]{thumbs/13_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/13_FP16_sq.png} \\
+{\footnotesize 14} & \includegraphics[width=1.6cm]{thumbs/14_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/14_FP16_sq.png} \\
+{\footnotesize 15} & \includegraphics[width=1.6cm]{thumbs/15_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/15_FP16_sq.png} \\
+{\footnotesize 16} & \includegraphics[width=1.6cm]{thumbs/16_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/16_FP16_sq.png} \\
+{\footnotesize 17} & \includegraphics[width=1.6cm]{thumbs/17_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/17_FP16_sq.png} \\
+{\footnotesize 18} & \includegraphics[width=1.6cm]{thumbs/18_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/18_FP16_sq.png} \\
+{\footnotesize 19} & \includegraphics[width=1.6cm]{thumbs/19_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/19_FP16_sq.png} \\
+{\footnotesize 20} & \includegraphics[width=1.6cm]{thumbs/20_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/20_FP16_sq.png} \\
+{\footnotesize 21} & \includegraphics[width=1.6cm]{thumbs/21_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/21_FP16_sq.png} \\
+{\footnotesize 22} & \includegraphics[width=1.6cm]{thumbs/22_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/22_FP16_sq.png} \\
+{\footnotesize 23} & \includegraphics[width=1.6cm]{thumbs/23_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/23_FP16_sq.png} \\
+{\footnotesize 24} & \includegraphics[width=1.6cm]{thumbs/24_NPZ_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_JXL-LL_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_d0.5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_d1_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_d5_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_d10_8_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_FP32_sq.png} & \includegraphics[width=1.6cm]{thumbs/24_FP16_sq.png} \\
+\bottomrule
+\end{tabular}}
