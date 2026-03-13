@@ -18,35 +18,40 @@ per metod. En detaljerad överblick av alla PSNR-värden utifrån varje enskild 
 
 \begin{table}[h]
 \centering
-\caption{Medelvärden per komprimerings\-metod för samtliga 24 Kodak-bilder.}
+\caption{Medelvärden per komprimeringsmetod för samtliga 24 Kodak-bilder.}
 \label{tab:summary}
 \begin{tabular}{lrrrr}
 \hline
 \textbf{Metod} & \textbf{PSNR (dB)} & \boldmath$\Delta$\textbf{PSNR} & \textbf{SSIM} & \textbf{BPP} \\
 \hline
-NPZ (baseline)              & 27{,}09 & ---      & 0{,}760 & 0{,}417 \\
-JXL LL    & 27{,}09 & $0{,}00$ & 0{,}760 & 0{,}413 \\
-JXL $d=0{,}05$   & 26{,}50 & $-0{,}60$ & 0{,}738 & 0{,}392 \\
-JXL $d=0{,}1$    & 25{,}83 & $-1{,}26$ & 0{,}710 & 0{,}350 \\
-JXL $d=0{,}5$    & 21{,}88 & $-5{,}21$ & 0{,}545 & 0{,}230 \\
-JXL $d=1{,}0$    & 20{,}10 & $-6{,}99$ & 0{,}470 & 0{,}184 \\
+NPZ (baseline)         & 27{,}10 & ---       & 0{,}868 & 0{,}417 \\
+JXL LL                 & 27{,}10 & $0{,}00$  & 0{,}868 & 0{,}411 \\
+JXL $d=0{,}05$         & 26{,}16 & $-0{,}94$ & 0{,}836 & 0{,}364 \\
+JXL $d=0{,}1$          & 24{,}97 & $-2{,}13$ & 0{,}791 & 0{,}312 \\
+JXL $d=0{,}5$          & 20{,}55 & $-6{,}55$ & 0{,}556 & 0{,}193 \\
+JXL $d=1{,}0$          & 19{,}70 & $-7{,}40$ & 0{,}499 & 0{,}166 \\
 \hline
 \end{tabular}
 \end{table}
 
-JXL lossless uppnår (föga förvånande) identisk bildkvalitet med NPZ men med något lägre BPP (0{,}413 mot 0{,}417).  
-JXL med $d=0{,}05$ minskar BPP med knappt 6\,\% mot NPZ vid en PSNR-förlust
-på 0{,}60\,dB. Vid $d=0{,}1$ fås 16\,\% lägre BPP till priset av 1{,}26\,dB.
+JXL lossless uppnår (föga förvånande) identisk bildkvalitet med NPZ i både PSNR och SSIM
+(27{,}10\,dB respektive 0{,}868), men med marginellt lägre BPP
+(0{,}411 mot 0{,}417).
+
+JXL med $d=0{,}05$ minskar BPP med cirka 12{,}6\,\% jämfört med NPZ,
+samtidigt som PSNR minskar med 0{,}94\,dB. Vid $d=0{,}1$ fås cirka
+25{,}1\,\% lägre BPP till priset av 2{,}13\,dB lägre PSNR.
+
 De aggressivare inställningarna $d=0{,}5$ och $d=1{,}0$ halverar respektive
-mer än halverar filstorleken (BPP 0{,}230 och 0{,}184) men medför avsevärda
-kvalitetsförluster (−5,21 och −6,99\,dB i PSNR).
+mer än halverar bithastigheten (BPP 0{,}193 och 0{,}166), men medför
+tydliga kvalitetsförluster: PSNR sjunker med 6{,}55 respektive 7{,}40\,dB,
+och SSIM sjunker till 0{,}556 respektive 0{,}499.
 
 %\subsection*{PSNR per bild och strategi}
 %Tabell~\ref{tab:psnr_per_image} visar PSNR\,(dB) för varje bild och strategi. Bilderna listas i nummerordning.
 
 
 PSNR-spridningen mellan bilder är stor och sträcker sig från 19{,}82\,dB (bild~13) till
-31{,}60\,dB (bild~3) för NPZ. Detta visar att olika motiv har
-varierande mängd information i latenten. Bild~5 och bild~8 visar
+31{,}60\,dB (bild~3) för NPZ.  Bild~5 och bild~8 visar
 lägst PSNR vid hög distans ($d=1{,}0$, 15{,}77 resp. 14{,}96\,dB) och
-är de känsligaste bilderna för förlustkomprimering i detta experiment.
+är de känsligaste bilderna för lossy komprimering i detta experiment.

@@ -25,21 +25,20 @@ Nätverket består av två delar, en \textit{encoder} som omvandlar källdatan t
     \centering
     \begin{subfigure}[t]{0.42\textwidth}
         \centering
-        \includegraphics[width=\linewidth, page=1]{images/autoencoder.pdf}
-        \caption{Autoencoder med encoder, flaskhals och decoder.}
+       \includegraphics[width=\linewidth, page=1]{images/autoencoder.pdf}
+        \caption{Autoencoder}
         \label{fig:autoencoder}
     \end{subfigure}
-    \hfill
+   \hfill
     \begin{subfigure}[t]{0.54\textwidth}
         \centering
         \includegraphics[width=\linewidth, page=1]{images/vae_tikz_param-2.pdf}
-        \caption{Variational autoencoder med reparameterisering.}
+        \caption{Variational autoencoder.}
         \label{fig:vae}
     \end{subfigure}
     \caption{Jämförelse mellan en autoencoder och en variational autoencoder.}
     \label{fig:autoencoder_vae}
 \end{figure}
-
 
 
 Genom att ett mellanliggande lager i nätverket har lägre dimension än källan uppstår en så kallad \textit{flaskhals}, vilket tvingar nätverket att identifiera och bevara de mest väsentliga egenskaperna i datan. Den kompakta representationen som uppstår i flaskhalsen kallas för en \textit{latent representation}, eller \textit{latent space} \cite{kingma2013autoencoding}
@@ -77,7 +76,7 @@ SDXL är en latent diffusionsmodell (LDM) utvecklad för att generera högupplö
 
 %Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen Bredd($B$)\texttimes Höjd($H$)\texttimes Färg($RGB$) och komprimerar den till en representation med dimensionen $(B\div8) \texttimes (H\div8) \texttimes 4$, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från tre (RGB) till fyra $(Z_0,\dots,Z_3)$. Dessa fyra kanaler representerar dock inte längre enbart färger, utan kallas 'features' ~\cite{podell2024sdxl}.
 
-Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen Bredd($B$)\texttimes Höjd($H$)\texttimes Färg($RGB$) och komprimerar den till en representation med dimensionen $(B\div8) \texttimes (H\div8) \texttimes 4$, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från tre (RGB) till fyra latenta kanaler $(Z_0,\dots,Z_3)$\footnote{Beteckningen $Z$ används ofta i litteraturen för att ange en latent representation eller latent variabel.}. Dessa fyra kanaler representerar dock inte längre enbart färger, utan kallas \textit{features}~\cite{podell2024sdxl}.
+Omvandlingen mellan pixelvärden och det latenta rummet sker med hjälp av en VAE. Encodern i denna VAE tar en bild med upplösningen Bredd($B$)\texttimes Höjd($H$)\texttimes Färg($RGB$) och komprimerar den till en representation med dimensionen $(B/8) \texttimes (H/8) \texttimes 4$, vilket innebär att bildens höjd och bredd komprimeras med en faktor av 8 i vardera riktning~\cite{podell2024sdxl}. Samtidigt ökas antalet kanaler från tre (RGB) till fyra latenta kanaler $(Z_0,\dots,Z_3)$\footnote{Beteckningen $Z$ används ofta i litteraturen för att ange en latent representation eller latent variabel.}. Dessa fyra kanaler representerar dock inte längre enbart färger, utan kallas \textit{features}~\cite{podell2024sdxl}.
 
 Den latenta representation kan sedan användas i diffusionsprocessen som stegvis lägger till eller tar bort brus för att generera nya bilder. Då vi inte använder oss av diffusion kommer vi inte närmare gå in på hur denna process går till annat än att den sker helt i detta komprimerade latenta rummet för att spara resurser. När processen är klar avkodar VAE:ns decoder den latenta representationen tillbaka till en RGB-bild igen med samma storlek som orginalet [9]. Genom detta gör det möjligt att generera bilder med hög kvalitet samtidigt som den bara behöver en bråkdel av den beräkningskraft som skulle krävas om diffusionsprocessen utfördes direkt på pixelvärden [6].
 
@@ -105,17 +104,14 @@ Vid kvantisering omvandlas det kontinuerliga intervallet av flyttalsvärden till
 
 För att objektivt kunna mäta hur väl en rekonstruerad bild stämmer överens med sitt original efter VAE-kodning och kvantisering, använder denna studie de etablerade kvalitetsmåtten PSNR och SSIM. Valet av dessa är motiverat av att de angriper problemet från två fundamentalt olika håll: det ena utifrån matematik och det andra utifrån mänsklig perception.
 
-Peak Signal-to-Noise Ratio (PSNR) fungerar som ett traditionellt mått för att mäta hur exakt en rekonstruktion är genom att beräkna förhållandet mellan en signals maximala styrka och det brus som påverkar dess exakthet. Beräkningen sker genom  Mean Squared Error (MSE), vilket innebär att man summerar kvadraten av skillnaderna mellan varje enskild pixel i originalet och den rekonstruerade bilden [12]. Resultatet anges i decibel (dB) där ett högre värde visar att bilderna är matematiskt mer lika. Trots användning av PSNR har den också en betydande svaghet, vilket är att  det förutsätter att alla pixelfel är lika störande för en betraktare. I verkligheten kan två bilder med samma PSNR värde upplevas ha helt olika kvalitet beroende på om bruset är jämnt fördelat eller om det förstör viktiga detaljer som ansikten och komplexa texturer [12].
+Peak Signal-to-Noise Ratio (PSNR) fungerar som ett traditionellt mått för att mäta hur exakt en rekonstruktion är genom att beräkna förhållandet mellan en signals maximala styrka och det brus som påverkar dess exakthet. Beräkningen sker genom  Mean Squared Error (MSE), vilket innebär att man summerar kvadraten av skillnaderna mellan varje enskild pixel i originalet och den rekonstruerade bilden \cite{hore2010psnrssim}. Resultatet anges i decibel (dB) där ett högre värde visar att bilderna är matematiskt mer lika. Trots användning av PSNR har den också en betydande svaghet, vilket är att  det förutsätter att alla pixelfel är lika störande för en betraktare. I verkligheten kan två bilder med samma PSNR värde upplevas ha helt olika kvalitet beroende på om bruset är jämnt fördelat eller om det förstör viktiga detaljer som ansikten och komplexa texturer \cite{hore2010psnrssim}.
 
-För att adressera dessa brister används Structural Similarity Index Measure (SSIM). Detta mått innebär en synsättsändring då man går från att mäta synliga fel till att istället fokusera på förlusten av strukturell information <<KÄLLA Image Quality Assessment: From Error Visibility to Structural Similarity>>. SSIM bygger på principen att det mänskliga visuella systemet är högt specialiserat på att extrahera former och mönster snarare än att analysera exakta pixelvärden. Istället för en enkel differensmätning analyserar SSIM lokala mönster som normaliserats med avseende på ljusstyrka och kontrast. Måttet väger samman tre specifika faktorer: ljusstyrka, kontrast och struktur [12].
+För att adressera dessa brister används Structural Similarity Index Measure (SSIM). Detta mått innebär en synsättsändring då man går från att mäta synliga fel till att istället fokusera på förlusten av strukturell information \cite{Wang2004SSIM}. SSIM bygger på principen att det mänskliga visuella systemet är högt specialiserat på att extrahera former och mönster snarare än att analysera exakta pixelvärden. Istället för en enkel differensmätning analyserar SSIM lokala mönster som normaliserats med avseende på ljusstyrka och kontrast. Måttet väger samman tre specifika faktorer: ljusstyrka, kontrast och struktur \cite{hore2010psnrssim}.
 
-Genom att separera dessa komponenter kan SSIM mer identifiera förändringar som faktiskt påverkar den upplevda kvaliteten, såsom suddighet eller störningar längs skarpa kanter. Resultatet är ett indexvärde mellan 0 och 1, där 1 representerar två identiska bilder [12]. I denna studie är SSIM särskilt värdefullt eftersom SDXL:s VAE ibland kan generera bilder som är visuellt mycket övertygande men som har små matematiska avvikelser i sina särdrag [6].
+Genom att separera dessa komponenter kan SSIM mer identifiera förändringar som faktiskt påverkar den upplevda kvaliteten, såsom suddighet eller störningar längs skarpa kanter. Resultatet är ett indexvärde mellan 0 och 1, där 1 representerar två identiska bilder \cite{hore2010psnrssim}. I denna studie är SSIM särskilt värdefullt eftersom SDXLs VAE ibland kan generera bilder som är visuellt mycket övertygande men som har små matematiska avvikelser i sina särdrag \cite{podell2024sdxl}.
 
 %\textit{PSNR} (\textit{Peak Signal-to-Noise Ratio}) mäter den genomsnittliga avvikelsen mellan pixlar i originalbilden och den rekonstruerade bilden och uttrycks i decibel (dB). Ett högre PSNR-värde indikerar en mindre avvikelse och därmed en bättre rekonstruktion~\cite{hore2010psnrssim}. PSNR är lätt att beräkna och därför vanligt förekommande i studier, men det fångar enbart skillnader på pixelnivå och tar inte hänsyn till hur vi människor  uppfattar bildkvalitet. \emph{<KÄLLA BEHÖVS>} 
 
 %\textit{SSIM} (\textit{Structural Similarity Index}) kompletterar PSNR genom att istället mäta strukturell likhet mellan bilderna. SSIM beaktar tre komponenter: luminans (ljusstyrka), kontrast och strukturell information, och kombinerar dessa till ett övergripande mått~\cite{hore2010psnrssim}. SSIM-värden ligger i intervallet 0 till 1, där 1 innebär identiska bilder. Genom att fokusera på strukturella egenskaper snarare än enskilda pixelvärden ger SSIM ett bättre mått på övergripande likhet. Att använda båda måtten tillsammans är vanligt i bildbehandlingsstudier eftersom de kompletterar varandra och inte mäter samma sak. \emph{<KÄLLA BEHÖVS>} 
 
 %\subsection*{Övergång till studiens frågeställning}
-
-
-\noindent
