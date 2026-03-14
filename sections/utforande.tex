@@ -53,13 +53,13 @@ JXL $d=1{.}0$    & JPEG XL lossy, distans $1{.}0$ \\
 
 \subsection*{Experimentets uppsättning}
 Varje bild behandlades enligt en identisk uppsättning steg för alla sex metoder enligt figur \ref{fig:placeholder}.
-Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE\footnote{\texttt{Vi använde stabilityai/stable-diffusion-xl-base-1.0}} till en latent med dimensionen $4 \times (H/8) \times (W/8)$ i 32-bitars flyttalsformat. $H$ och $W$ är originalbildens höjd respektive bredd i pixlar.
+Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE\footnote{\texttt{Vi använde stabilityai/stable-diffusion-xl-base-1.0}} till en latent med dimensionen $4 \times (H/8) \times (B/8)$ i 32-bitars flyttalsformat. $H$ och $B$ är originalbildens höjd respektive bredd i pixlar.
 Denna latent kvantiserades sedan till 8-bitars heltal. Värden utanför
 intervallet $[-4{.}0,\; 4{.}0]$ klipptes till gränserna.
 Detta gav 256 diskreta nivåer.
 
 Vidare omvandlades de kvantiserade värdena från formen
-$(4 \times L_h \times L_w)$ till $(L_h \times L_w \times 4)$,
+$(4 \times L_h \times L_b)$ till $(L_h \times L_b \times 4)$,
 motsvarande ett RGBA-format, varefter de kodades med JPEG XL via Python-biblioteket
 \textit{imagecodecs}\footnote{\textit{imagecodecs} är ett Python-bibliotek för hantering av flera bildkomprimeringsformat, inklusive JPEG XL.}
 med parametern \textit{effort} satt till 9, vilket är den rekommenderade högsta nivån.
@@ -68,7 +68,7 @@ För NPZ-metoden sparades datan istället direkt med
 \texttt{numpy.savez\_compressed} och lästes tillbaka med \texttt{numpy.load}.
 Denna metod fungerarade också som vår baseline och övre gräns för lossless-komprimering.
 
-Vid rekonstruktion återfördes datan till $(4 \times L_h \times L_w)$. Därefter avkvantiserades den rekonstruerade datan tillbaka
+Vid rekonstruktion återfördes datan till $(4 \times L_h \times L_b)$. Därefter avkvantiserades den rekonstruerade datan tillbaka
 till 32-bitars flyttal, varpå SDXL:s VAE-decoder rekonstruerade
 den fulla RGB-bilden igen (med varierande grad av komprimeringsartifakter).
 Rekonstruktionen jämfördes sedan med originalbilden med hjälp av
@@ -118,10 +118,10 @@ För varje kombination av bild och metod beräknades tre mätvärden.
 den rekonstruerade RGB-bilden, som beskrivs i bakgrundsavsnittet.
 Därutöver beräknades \textit{bitar per pixel} (BPP) enligt
 \begin{equation}
-  \text{BPP} = \frac{\text{filstorlek (bitar)}}{W \times H},
+  \text{BPP} = \frac{\text{filstorlek (bitar)}}{B \times H},
   \label{eq:bpp}
 \end{equation}
-där $W$ och $H$ är originalbildens dimensioner i pixlar.
+där $B$ och $H$ är originalbildens dimensioner i pixlar.
 BPP möjliggör jämförelse av komprimeringseffektivitet oberoende av bildstorlek
 och är det standardiserade måttet vid utvärdering av bildkomprimeringsalgoritmer.
 Experimenten kördes med CUDA-acceleration på en NVIDIA GPU.
