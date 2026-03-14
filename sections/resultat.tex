@@ -10,8 +10,8 @@
 \addcontentsline{toc}{section}{Resultat}
 
 Experimentet genomfördes på samtliga 24 bilder i datasetet med sex
-komprimeringsmetoder. Nedan redovisas ett sammandrag där medelvärden redovisas
-per metod. En detaljerad överblick av alla PSNR-värden utifrån varje enskild bild finns som bilaga (tabell \ref{tab:psnr_per_image}).
+komprimeringsmetoder. \textit{Tabell \ref{tab:summary}} visar ett sammandrag där medelvärden redovisas
+per metod. En detaljerad överblick av samtliga PSNR/SSIM-värden utifrån varje enskild bild finns som bilagor (tabell \ref{tab:psnr_per_image}-\ref{tab:filstorlek_per_image}).
 %\subsection*{Medelvärden per strategi}
 
 %Tabell~\ref{tab:summary} visar medelvärden för PSNR, SSIM och BPP beräknade över de 24 bilderna.
@@ -35,17 +35,16 @@ JXL $d=1{,}0$          & 19{,}70 & $-7{,}40$ & 0{,}499 & 0{,}166 \\
 \end{table}
 
 JXL lossless uppnår (föga förvånande) identisk bildkvalitet med NPZ i både PSNR och SSIM
-(27{,}10\,dB respektive 0{,}868), men med marginellt lägre BPP
-(0{,}411 mot 0{,}417).
+(27{,}10\,dB respektive 0{,}868). Detta med högst marginell skillnad i BPP (0{,}411 mot 0{,}417).
 
-JXL med $d=0{,}05$ minskar BPP med cirka 12{,}6\,\% jämfört med NPZ,
-samtidigt som PSNR minskar med 0{,}94\,dB. Vid $d=0{,}1$ fås cirka
-25{,}1\,\% lägre BPP till priset av 2{,}13\,dB lägre PSNR.
+JXL med $d=0{.}05$ minskar BPP med cirka 12\,\% jämfört med NPZ,
+samtidigt som PSNR minskar med 0{,}94\,dB. Vid $d=0{.}1$ fås cirka
+25\,\% lägre BPP till priset av $2{,}13$\,dB lägre PSNR.
 
-De aggressivare inställningarna $d=0{,}5$ och $d=1{,}0$ halverar respektive
-mer än halverar bithastigheten (BPP 0{,}193 och 0{,}166), men medför
-tydliga kvalitetsförluster: PSNR sjunker med 6{,}55 respektive 7{,}40\,dB,
-och SSIM sjunker till 0{,}556 respektive 0{,}499.
+De aggressivare inställningarna $d=0{.}5$ och $d=1{.}0$ halverar respektive
+mer än halverar bithastigheten (BPP $0{.}193$ och $0{.}166$), men medför
+tydliga kvalitetsförluster: PSNR sjunker med $6{.}55$ respektive $7{.}40$\,dB,
+och SSIM sjunker till $0{.}556$ respektive $0{.}499$.
 
 %\subsection*{PSNR per bild och strategi}
 %Tabell~\ref{tab:psnr_per_image} visar PSNR\,(dB) för varje bild och strategi. Bilderna listas i nummerordning.

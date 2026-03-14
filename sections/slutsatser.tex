@@ -6,4 +6,10 @@
 %I detta avsnitt ska ni summera rapporten och presentera slutsatser. Ge en kort översikt av frågeställningen. Ni ska sedan tydligt tala om de viktigaste resultaten, förklara deras signifikans och sätta in dem i sitt sammanhang.
 
 %Alla slutsatser ska ha stöd i tidigare delar av rapporten. Ni ska däremot inte presentera nya detaljer. En expert ska kunna läsa detta avsnitt oberoende av resten av rapporten.
-<<kommer snart>>
+Resultaten från experimenten visar att latenta representationer från SDXL uppvisar egenskaper för att kunna behandlas med traditionella komprimeringsmetoder. Lossless-komprimering med JPEG XL gav icke oväntat identisk bildkvalitet jämfört med baseline-metoden NPZ, samtidigt som filstorleken blev något mindre. Detta betyder att JPEG XL har förmåga att matcha ZIP-algortimen när det gäller latenta representationer i SDXL. Dock har vi inte kunnat visa att det är just latentens bildlika egenskaper som ligger till grund för detta, vilket var vårt egentliga syfte.
+
+Vid lossy komprimering visade resultaten  att latenten är mycket känslig  även för små förändringar. Redan vid relativt låga distansvärden försämrades bildkvaliteten märkbart, och vid mer aggressiva inställningar kollapsade rekonstruktionen snabbt. Detta tyder på att latenta representationer från SDXL inte lämpar sig särskilt väl för lossy-komprimering med JPEG XL, då viktiga egenskaper i latenten går förlorade även vid små avvikelser.
+
+Experimenten bekräftar att kvantisering till 8 bitar fungerar mycket väl. De kvantiserade representationerna uppvisade i praktiken ingen märkbar skillnad i bildkvalitet jämfört med representationer lagrade i 16- eller 32-bitars flyttal. Detta tyder på att latenten är mer detaljerad än vad som krävs för att rekonstruera bilden med bibehållen kvalitet. Vidare observerades att representationer lagrade i 16-bitars flyttal gav i princip samma resultat som 32-bitars flyttal. Även om detta inte var ett huvudfokus i studien tyder det på att den högre precisionen  inte är nödvändig för denna typ av latent representation.
+
+Sammanfattningsvis visar studien att latenta representationer från SDXL kan komprimeras effektivt med lossless-metoder och kvantisering, men att möjligheterna till lossy komprimering är begränsade.
