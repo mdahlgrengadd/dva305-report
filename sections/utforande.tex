@@ -25,7 +25,7 @@ med upplösningen 768\texttimes512 pixlar (både stående och liggande format).
 Alla 24 bilder i datauppsättningen inkluderades i experimentet.
 
 %\subsection*{Komprimeringsstrategier}
-Sex komprimeringsmetoder utvärderades för varje bild. För att utvärdera kvantisering isolerat från effekterna av bildkomprimering användes \textit{NumPy NPZ} (\texttt{savez\_compressed}), ett komprimerat filformat baserat på ZIP\footnote{ZIP är ett etablerat arkivformat för lossless komprimering av vanliga filer.} som finns inbyggt i \emph{numpy}. Övriga metoder använde
+Sju komprimeringsmetoder utvärderades för varje bild. Som baseline användes den okomprimerade kvantiserade latenten (\textit{RAW}), sparad med \texttt{numpy.save} i \texttt{.npy}-format utan komprimering. Därutöver utvärderades \textit{NumPy NPZ} (\texttt{savez\_compressed}), ett komprimerat filformat baserat på ZIP\footnote{ZIP är ett etablerat arkivformat för lossless komprimering av vanliga filer.} som finns inbyggt i \emph{numpy}, för att mäta effekten av ZIP-komprimering på latenten. Övriga metoder använde
 \textit{JPEG XL} (JXL), som anses för tillfället vara SOTA\footnote{\textit{SOTA} står för \textit{state of the art}, det vill säga den bästa tillgängliga metoden enligt aktuell kunskap.} för såväl lossless som lossy komprimering <<REFERENS>>.
 För JXL testades lossless samt fyra grader av lossy
 med distansvärden 0{.}05, 0{.}1, 0{.}5 och 1{.}0.
@@ -35,13 +35,14 @@ Samtliga metoder sammanfattas i tabell~\ref{tab:strategier}.
 
 \begin{table}[h]
 \centering
-\caption{De sex komprimeringsmetoder som användes i experimentet.}
+\caption{De sju komprimeringsmetoder som användes i experimentet.}
 \label{tab:strategier}
 \begin{tabular}{ll}
 \hline
 \textbf{Metod} & \textbf{Beskrivning} \\
 \hline
-NPZ (baseline)              & NumPy \texttt{savez\_compressed} (lossless) \\
+RAW (baseline)              & Okomprimerad kvantiserad latent (\texttt{.npy}) \\
+NPZ                         & NumPy \texttt{savez\_compressed} (lossless, ZIP) \\
 JXL LL    & JPEG XL (lossless) \\
 JXL $d=0{.}05$   & JPEG XL lossy, distans $0{.}05$ \\
 JXL $d=0{.}1$    & JPEG XL lossy, distans $0{.}1$ \\
@@ -52,7 +53,7 @@ JXL $d=1{.}0$    & JPEG XL lossy, distans $1{.}0$ \\
 \end{table}
 
 \subsection*{Experimentets uppsättning}
-Varje bild behandlades enligt en identisk uppsättning steg för alla sex metoder enligt figur \ref{fig:placeholder}.
+Varje bild behandlades enligt en identisk uppsättning steg för alla sju metoder enligt figur \ref{fig:placeholder}.
 Bilden lästes först in från PNG som RGB8 (8 bitars RGB) och kodades med SDXL:s VAE\footnote{\texttt{Vi använde stabilityai/stable-diffusion-xl-base-1.0}} till en latent med dimensionen $4 \times (H/8) \times (B/8)$ i 32-bitars flyttalsformat. $H$ och $B$ är originalbildens höjd respektive bredd i pixlar.
 Denna latent kvantiserades sedan till 8-bitars heltal. Värden utanför
 intervallet $[-4{.}0,\; 4{.}0]$ klipptes till gränserna.
@@ -64,9 +65,11 @@ motsvarande ett RGBA-format, varefter de kodades med JPEG XL via Python-bibliote
 \textit{imagecodecs}\footnote{\textit{imagecodecs} är ett Python-bibliotek för hantering av flera bildkomprimeringsformat, inklusive JPEG XL.}
 med parametern \textit{effort} satt till 9, vilket är den rekommenderade högsta nivån.
 
-För NPZ-metoden sparades datan istället direkt med
-\texttt{numpy.savez\_compressed} och lästes tillbaka med \texttt{numpy.load}.
-Denna metod fungerarade också som vår baseline och övre gräns för lossless-komprimering.
+För RAW-metoden sparades den kvantiserade datan okomprimerad med
+\texttt{numpy.save} och fungerade som baseline.
+För NPZ-metoden sparades datan med
+\texttt{numpy.savez\_compressed} och lästes tillbaka med \texttt{numpy.load},
+vilket visar effekten av ZIP-komprimering på latenten.
 
 Vid rekonstruktion återfördes datan till $(4 \times L_h \times L_b)$. Därefter avkvantiserades den rekonstruerade datan tillbaka
 till 32-bitars flyttal, varpå SDXL:s VAE-decoder rekonstruerade
